@@ -1,6 +1,15 @@
 import os
 
+from dotenv import load_dotenv
+
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
+# Load environment variables from .env if present
+load_dotenv(os.path.join(BASE_DIR, ".env"))
+
+# Check for persistent storage (e.g., Render Persistent Disk mounted at /var/data or custom path)
+PERSISTENT_DIR = os.environ.get("PERSISTENT_DIR") or os.environ.get("DATA_DIR")
+if not PERSISTENT_DIR and os.path.exists("/var/data") and os.path.isdir("/var/data"):
+    PERSISTENT_DIR = "/var/data"
 
 
 class Config:
@@ -17,13 +26,35 @@ class Config:
         else:
             SECRET_KEY = "rbv-secret-key-change-in-production-2026"
 
-    SQLALCHEMY_DATABASE_URI = os.environ.get(
-        "DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'royal_bagh.db')}"
-    )
+    # Database Configuration: PostgreSQL (Render Managed) or SQLite (Persistent Disk / local instance)
+    _raw_db_url = os.environ.get("DATABASE_URL")
+    if _raw_db_url:
+        # Render sets postgres://, but SQLAlchemy requires postgresql://
+        if _raw_db_url.startswith("postgres://"):
+            _raw_db_url = _raw_db_url.replace("postgres://", "postgresql://", 1)
+        SQLALCHEMY_DATABASE_URI = _raw_db_url
+    elif PERSISTENT_DIR:
+        SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(PERSISTENT_DIR, 'royal_bagh.db')}"
+    else:
+        SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'royal_bagh.db')}"
+
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", 64 * 1024 * 1024))  # 64 MB max upload for media
-    UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
-    MEDIA_UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads", "media")
+
+    # Media & Upload Directories (Persistent Disk on Render or local static folder)
+    PERSISTENT_STORAGE_DIR = PERSISTENT_DIR
+    if PERSISTENT_DIR:
+        UPLOAD_FOLDER = os.path.join(PERSISTENT_DIR, "uploads")
+        MEDIA_UPLOAD_FOLDER = os.path.join(PERSISTENT_DIR, "uploads", "media")
+    else:
+        UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
+        MEDIA_UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads", "media")
+
+    # Optional Cloudinary Storage Configuration
+    CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL", "")
+    CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME", "")
+    CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY", "")
+    CLOUDINARY_API_SECRET = os.environ.get("CLOUDINARY_API_SECRET", "")
 
     # Session & Cookie security over HTTPS / Render
     SESSION_COOKIE_HTTPONLY = True

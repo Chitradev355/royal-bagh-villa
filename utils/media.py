@@ -50,10 +50,48 @@ def save_uploaded_media(file, category='general', title=None, alt_text=None):
     ext = get_file_extension(original_name)
     media_type = get_media_type(original_name)
 
-    # Generate unique filename
-    unique_name = f'{uuid.uuid4().hex[:12]}_{original_name}'
+    # 1. Check for Cloudinary configuration
+    cloudinary_url = current_app.config.get('CLOUDINARY_URL') or os.environ.get('CLOUDINARY_URL')
+    cloudinary_cloud = current_app.config.get('CLOUDINARY_CLOUD_NAME') or os.environ.get('CLOUDINARY_CLOUD_NAME')
+    
+    if cloudinary_url or cloudinary_cloud:
+        try:
+            import cloudinary
+            import cloudinary.uploader
+            resource_type = "video" if media_type == 'video' else "image"
+            upload_result = cloudinary.uploader.upload(
+                file,
+                resource_type=resource_type,
+                folder="royal_bagh_villa"
+            )
+            file_url = upload_result.get('secure_url', upload_result.get('url'))
+            file_size = upload_result.get('bytes', 0)
+            mime_type = f"{media_type}/{ext}"
+            unique_name = upload_result.get('public_id', f'cloud_{uuid.uuid4().hex[:12]}')
 
-    upload_folder = os.path.join(current_app.static_folder, 'uploads', 'media')
+            media = MediaFile(
+                filename=unique_name,
+                original_filename=original_name,
+                file_url=file_url,
+                file_type=media_type,
+                mime_type=mime_type,
+                file_size=file_size,
+                title=title or original_name.rsplit('.', 1)[0].replace('_', ' ').replace('-', ' ').title(),
+                alt_text=alt_text or title or original_name,
+                category=category
+            )
+            db.session.add(media)
+            db.session.commit()
+            return media, None
+        except Exception as e:
+            # Fall back to persistent/local disk if Cloudinary upload encounters an error
+            file.seek(0)
+
+    # 2. Local / Persistent Disk Storage (Render Disk or static folder)
+    unique_name = f'{uuid.uuid4().hex[:12]}_{original_name}'
+    upload_folder = current_app.config.get('MEDIA_UPLOAD_FOLDER')
+    if not upload_folder:
+        upload_folder = os.path.join(current_app.static_folder, 'uploads', 'media')
     os.makedirs(upload_folder, exist_ok=True)
 
     file_path = os.path.join(upload_folder, unique_name)
@@ -64,7 +102,7 @@ def save_uploaded_media(file, category='general', title=None, alt_text=None):
     if not mime_type:
         mime_type = 'video/mp4' if media_type == 'video' else 'image/jpeg'
 
-    file_url = f'/static/uploads/media/{unique_name}'
+    file_url = f'/uploads/media/{unique_name}'
 
     media = MediaFile(
         filename=unique_name,
@@ -88,12 +126,26 @@ def delete_media_file(media_id):
     if not media:
         return False, 'Media not found'
 
-    file_path = os.path.join(current_app.static_folder, 'uploads', 'media', media.filename)
-    if os.path.exists(file_path):
+    # Check Cloudinary deletion if remote
+    if media.file_url and 'cloudinary.com' in media.file_url:
         try:
-            os.remove(file_path)
-        except Exception as e:
+            import cloudinary
+            import cloudinary.uploader
+            resource_type = "video" if media.file_type == 'video' else "image"
+            cloudinary.uploader.destroy(media.filename, resource_type=resource_type)
+        except Exception:
             pass
+    else:
+        # Local or Persistent Disk removal
+        upload_folder = current_app.config.get('MEDIA_UPLOAD_FOLDER')
+        if not upload_folder:
+            upload_folder = os.path.join(current_app.static_folder, 'uploads', 'media')
+        file_path = os.path.join(upload_folder, media.filename)
+        if os.path.exists(file_path):
+            try:
+                os.remove(file_path)
+            except Exception:
+                pass
 
     db.session.delete(media)
     db.session.commit()

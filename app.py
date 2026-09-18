@@ -25,6 +25,20 @@ def create_app():
     from utils.media import format_file_size
     from utils.cms_seeder import seed_cms_defaults
 
+    # Ensure persistent directories exist and initialize database if needed
+    persistent_dir = getattr(Config, "PERSISTENT_STORAGE_DIR", None)
+    if persistent_dir:
+        os.makedirs(persistent_dir, exist_ok=True)
+        # If SQLite is configured on persistent disk and file doesn't exist yet, copy seed DB
+        persistent_db_file = os.path.join(persistent_dir, "royal_bagh.db")
+        seed_db = os.path.join(os.path.dirname(__file__), "instance", "royal_bagh.db")
+        if not os.path.exists(persistent_db_file) and os.path.exists(seed_db):
+            try:
+                import shutil
+                shutil.copy2(seed_db, persistent_db_file)
+            except Exception:
+                pass
+
     # Ensure upload directories exist
     os.makedirs(app.config.get("UPLOAD_FOLDER", "static/uploads"), exist_ok=True)
     os.makedirs(app.config.get("MEDIA_UPLOAD_FOLDER", "static/uploads/media"), exist_ok=True)
@@ -142,6 +156,17 @@ def create_app():
     app.register_blueprint(booking_bp, url_prefix="/check-status")
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(api_bp, url_prefix="/api")
+
+    # Serve media uploads seamlessly from persistent directory or local static folder
+    from flask import send_from_directory
+
+    @app.route('/static/uploads/media/<path:filename>')
+    @app.route('/uploads/media/<path:filename>')
+    def serve_uploaded_media(filename):
+        media_folder = app.config.get("MEDIA_UPLOAD_FOLDER")
+        if not os.path.isabs(media_folder):
+            media_folder = os.path.join(os.path.dirname(__file__), media_folder)
+        return send_from_directory(media_folder, filename)
 
     # Create tables & initialize CMS defaults
     with app.app_context():
