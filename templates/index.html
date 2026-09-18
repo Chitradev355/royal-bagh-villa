@@ -1,0 +1,934 @@
+{% extends "base.html" %}
+
+{% block title %}Royal Bagh Villa Dehradun | Cafe, Restaurant, Lawn & Events{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Royal Bagh Villa, Dehradun — a premium destination for cafe, restaurant, weddings, receptions, birthdays, events and celebrations. Enquire for bookings.">
+<meta name="keywords" content="Royal Bagh Villa, Royal Bagh Villa Dehradun, cafe in dehradun, restaurant dehradun, wedding lawn dehradun, banquet hall dehradun, birthday parties dehradun, kitty party venue dehradun">
+{% endblock %}
+
+{% block content %}
+
+<!-- 1. HERO SECTION -->
+<section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B131F]">
+    <!-- Background Image with Cinematic Overlay -->
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&q=85" alt="Royal Bagh Villa Venue in Dehradun" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+        <!-- Deep Charcoal / Midnight Navy Gradient Overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/70 to-[#0B131F]/80"></div>
+        <div class="absolute inset-0 bg-black/30"></div>
+    </div>
+    
+    <div class="relative z-10 text-center px-4 max-w-5xl mx-auto pt-24 pb-16" data-aos="fade-up" data-aos-duration="900">
+        <!-- Brand Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A96E]/40 bg-[#0B131F]/60 backdrop-blur-md mb-6">
+            <span class="w-2 h-2 rounded-full bg-[#C9A96E] animate-pulse"></span>
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase">Dehradun's Premier Destination</span>
+        </div>
+
+        <h1 class="font-playfair text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#FAF8F4] font-bold mb-6 tracking-tight leading-[1.1]">
+            Where Every Celebration <br class="hidden sm:inline">
+            <span class="text-[#C9A96E] italic font-normal">Becomes a Memory.</span>
+        </h1>
+        
+        <p class="font-inter text-sm sm:text-base md:text-lg text-[#C9A96E] font-medium tracking-widest uppercase mb-4">
+            Cafe • Restaurant • Events • Celebrations
+        </p>
+        
+        <p class="text-[#FAF8F4]/80 text-base sm:text-lg md:text-xl max-w-3xl mx-auto mb-10 font-inter font-normal leading-relaxed">
+            A premium destination in Dehradun for dining, celebrations, weddings, parties and unforgettable moments.
+        </p>
+        
+        <!-- Action Buttons -->
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+            <a href="#enquiry" class="w-full sm:w-auto px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/30 hover:scale-[1.02] text-center tracking-wide">
+                Check Availability
+            </a>
+            <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition-all duration-300 shadow-xl flex items-center justify-center gap-2.5 text-center tracking-wide">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                <span>WhatsApp Us</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Subtle Scroll Indicator -->
+    <a href="#introduction" class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 text-[#C9A96E]/70 hover:text-[#C9A96E] transition-colors flex flex-col items-center gap-2" aria-label="Scroll down">
+        <span class="text-[11px] tracking-widest uppercase font-medium">Scroll</span>
+        <i data-lucide="chevron-down" class="w-5 h-5 animate-bounce"></i>
+    </a>
+</section>
+
+<!-- 2. INTRODUCTION SECTION -->
+<section id="introduction" class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Welcome Experience</span>
+            <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                More Than a Destination. <br>
+                <span class="text-[#C9A96E] italic font-normal">It's Your Celebration.</span>
+            </h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed">
+                Royal Bagh Villa seamlessly brings together handcrafted cafe culture, fine multi-cuisine dining, sophisticated banquet spaces, and a grand open-air lawn under one premier destination in Dehradun.
+            </p>
+        </div>
+        
+        <!-- 4 Service Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- 1. Cafe -->
+            <div class="bg-[#121F33] border border-[#C9A96E]/20 rounded-xl p-8 hover:border-[#C9A96E] transition-all duration-300 group hover:-translate-y-1 shadow-lg" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-14 h-14 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center mb-6 text-[#C9A96E] group-hover:bg-[#C9A96E] group-hover:text-[#0B131F] transition-colors">
+                    <i data-lucide="coffee" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-playfair text-2xl text-[#FAF8F4] font-semibold mb-3">Cafe</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed mb-6">
+                    Relaxed coffee, conversations and casual dining.
+                </p>
+                <a href="{{ url_for('cafe_bp.index') }}" class="text-sm font-medium text-[#C9A96E] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                    Explore Cafe <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- 2. Restaurant -->
+            <div class="bg-[#121F33] border border-[#C9A96E]/20 rounded-xl p-8 hover:border-[#C9A96E] transition-all duration-300 group hover:-translate-y-1 shadow-lg" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-14 h-14 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center mb-6 text-[#C9A96E] group-hover:bg-[#C9A96E] group-hover:text-[#0B131F] transition-colors">
+                    <i data-lucide="utensils" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-playfair text-2xl text-[#FAF8F4] font-semibold mb-3">Restaurant</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed mb-6">
+                    A comfortable dining experience for family, friends and special occasions.
+                </p>
+                <a href="{{ url_for('restaurant_bp.index') }}" class="text-sm font-medium text-[#C9A96E] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                    Explore Restaurant <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- 3. Events -->
+            <div class="bg-[#121F33] border border-[#C9A96E]/20 rounded-xl p-8 hover:border-[#C9A96E] transition-all duration-300 group hover:-translate-y-1 shadow-lg" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-14 h-14 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center mb-6 text-[#C9A96E] group-hover:bg-[#C9A96E] group-hover:text-[#0B131F] transition-colors">
+                    <i data-lucide="party-popper" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-playfair text-2xl text-[#FAF8F4] font-semibold mb-3">Events</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed mb-6">
+                    Perfect spaces for birthdays, kitty parties, receptions, corporate gatherings and celebrations.
+                </p>
+                <a href="#events" class="text-sm font-medium text-[#C9A96E] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                    Explore Events <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- 4. Lawn -->
+            <div class="bg-[#121F33] border border-[#C9A96E]/20 rounded-xl p-8 hover:border-[#C9A96E] transition-all duration-300 group hover:-translate-y-1 shadow-lg" data-aos="fade-up" data-aos-delay="400">
+                <div class="w-14 h-14 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center mb-6 text-[#C9A96E] group-hover:bg-[#C9A96E] group-hover:text-[#0B131F] transition-colors">
+                    <i data-lucide="trees" class="w-7 h-7"></i>
+                </div>
+                <h3 class="font-playfair text-2xl text-[#FAF8F4] font-semibold mb-3">Lawn</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed mb-6">
+                    A spacious outdoor venue designed for weddings, receptions and large celebrations.
+                </p>
+                <a href="{{ url_for('lawn_bp.index') }}" class="text-sm font-medium text-[#C9A96E] inline-flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                    Explore Lawn <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 3. CAFE SECTION -->
+<section id="cafe" class="py-24 bg-[#0D1826] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div data-aos="fade-right">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">The Cafe Experience</span>
+                <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                    A Place to Pause. <br>
+                    <span class="text-[#C9A96E] italic font-normal">A Place to Connect.</span>
+                </h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mb-6"></div>
+                <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed mb-8">
+                    Step into an inviting atmosphere where the aroma of freshly ground coffee and artisanal treats welcomes you. Whether catching up with close friends or celebrating intimate milestones, our cafe offers the ideal setting in Dehradun.
+                </p>
+
+                <!-- Highlights List -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Handcrafted Coffee</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Artisanal Tea</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Savory Snacks</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Casual Dining</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Family Gatherings</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Small Celebrations</span>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('cafe_bp.index') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-[#C9A96E]/20">
+                    <span>Explore Cafe</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- Cafe Images Grid -->
+            <div class="grid grid-cols-2 gap-4" data-aos="fade-left">
+                <div class="space-y-4">
+                    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=700&q=80" alt="Royal Bagh Villa Cafe Ambiance" class="w-full h-64 object-cover rounded-xl shadow-lg border border-[#C9A96E]/20">
+                    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=700&q=80" alt="Freshly Brewed Coffee" class="w-full h-44 object-cover rounded-xl shadow-lg border border-[#C9A96E]/20">
+                </div>
+                <div class="space-y-4 pt-6">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=700&q=80" alt="Cafe Seating and Conversations" class="w-full h-44 object-cover rounded-xl shadow-lg border border-[#C9A96E]/20">
+                    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?w=700&q=80" alt="Cafe Snacks and Beverages" class="w-full h-64 object-cover rounded-xl shadow-lg border border-[#C9A96E]/20">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 4. RESTAURANT SECTION -->
+<section id="restaurant" class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Restaurant Images -->
+            <div class="order-2 lg:order-1" data-aos="fade-right">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80" alt="Royal Bagh Villa Dining Area" class="w-full h-96 sm:h-[460px] object-cover rounded-2xl shadow-2xl border border-[#C9A96E]/20">
+                    <!-- Overlay Badge -->
+                    <div class="absolute -bottom-6 -right-4 sm:bottom-6 sm:-left-6 bg-[#121F33]/95 backdrop-blur-md border border-[#C9A96E]/40 p-5 rounded-xl shadow-2xl max-w-xs">
+                        <p class="font-playfair text-[#C9A96E] font-semibold text-lg mb-1">Finest Flavors</p>
+                        <p class="text-xs text-[#FAF8F4]/80">Handcrafted Indian and Continental recipes curated for family dining.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant Content -->
+            <div class="order-1 lg:order-2" data-aos="fade-left">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Fine Dining</span>
+                <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                    Good Food. <br>
+                    <span class="text-[#C9A96E] italic font-normal">Beautiful Moments.</span>
+                </h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mb-6"></div>
+                <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed mb-8">
+                    Discover culinary artistry crafted with the finest ingredients. From hearty lunches to candlelit dinners, our restaurant provides an elegant, comfortable haven for every palate and family gathering.
+                </p>
+
+                <!-- Key Attributes -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-center gap-3 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Family Dining</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Lunch & Dinner</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Vegetarian & Non-Vegetarian</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Private Gatherings</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-sm text-[#FAF8F4]/90 sm:col-span-2">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Special Occasions & Celebrations</span>
+                    </div>
+                </div>
+
+                <a href="{{ url_for('restaurant_bp.index') }}" class="inline-flex items-center gap-2 px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-lg hover:shadow-[#C9A96E]/20">
+                    <span>Explore Restaurant</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 5. EVENTS SECTION -->
+<section id="events" class="py-24 bg-[#0D1826] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Celebrations & Gatherings</span>
+            <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                Celebrate It <span class="text-[#C9A96E] italic font-normal">Your Way.</span>
+            </h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed">
+                Whether an intimate milestone or a grand gathering, Royal Bagh Villa brings your vision to life with tailored settings, decor, and hospitality.
+            </p>
+        </div>
+
+        <!-- 8 Event Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
+            <!-- 1. Birthday Celebrations -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="50">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80" alt="Birthday Celebrations at Royal Bagh Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Birthday Celebrations</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Vibrant decor, curated cakes, and joyous spaces for all age celebrations.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Kitty Parties -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="100">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=600&q=80" alt="Kitty Parties at Royal Bagh Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Kitty Parties</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Exclusive lounge setups with delectable appetizers, mocktails, and laughter.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Anniversary -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="150">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80" alt="Anniversary Celebrations" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Anniversary</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Romantic ambience, fine dining, and bespoke setups to celebrate love.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Reception -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="200">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80" alt="Wedding Reception" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Reception</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Grand stages, radiant lighting, and majestic hospitality for your new journey.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Corporate Events -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="250">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=80" alt="Corporate Events" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Corporate Events</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Annual meets, team offsites, award nights, and elegant corporate luncheons.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Private Parties -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="300">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80" alt="Private Parties" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Private Parties</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Exclusive spaces with complete privacy, music setups, and customized menus.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Family Functions -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="350">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80" alt="Family Functions" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Family Functions</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Roka, Haldi, Mehendi, naming ceremonies, and joyful multigenerational reunions.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Social Gatherings -->
+            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="400">
+                <div class="relative h-48 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&q=80" alt="Social Gatherings" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                </div>
+                <div class="p-6 flex-grow flex flex-col justify-between">
+                    <div>
+                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Social Gatherings</h3>
+                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Festive parties, reunion brunches, and celebratory banquets with loved ones.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="#enquiry" class="inline-flex items-center gap-2 px-9 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/20 text-base tracking-wide">
+                <span>Plan Your Event</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 6. LAWN SECTION -->
+<section id="lawn" class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Content -->
+            <div data-aos="fade-right">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Grand Outdoor Venue</span>
+                <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                    Your Celebration, <br>
+                    <span class="text-[#C9A96E] italic font-normal">Under the Open Sky.</span>
+                </h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mb-6"></div>
+                <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed mb-6">
+                    Our sprawling lush green lawn in Dehradun provides a magnificent open-air canvas for unforgettable weddings, vibrant sangeets, and grand receptions beneath the stars.
+                </p>
+
+                <!-- Capacity Badge -->
+                <div class="p-4 rounded-lg bg-[#121F33] border border-[#C9A96E]/30 mb-8 inline-block">
+                    <p class="text-[#C9A96E] font-medium text-sm sm:text-base flex items-center gap-2">
+                        <i data-lucide="users" class="w-5 h-5 text-[#C9A96E]"></i>
+                        <span>Suitable for intimate gatherings to large celebrations.</span>
+                    </p>
+                </div>
+
+                <!-- Lawn Highlights -->
+                <div class="grid grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Weddings & Sangeet</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Grand Receptions</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Engagements</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Large Celebrations</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Outdoor Events</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Ample Parking</span>
+                    </div>
+                </div>
+
+                <a href="#enquiry" class="inline-flex items-center gap-2 px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/20">
+                    <span>Enquire for Lawn Booking</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+
+            <!-- Cinematic Lawn Image -->
+            <div data-aos="fade-left">
+                <div class="relative overflow-hidden rounded-2xl shadow-2xl border border-[#C9A96E]/30 group">
+                    <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1000&q=80" alt="Lush Lawn at Royal Bagh Villa Dehradun" class="w-full h-[420px] sm:h-[480px] object-cover group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 right-6 text-white">
+                        <span class="text-xs font-semibold uppercase tracking-widest text-[#C9A96E]">Grand Open Air</span>
+                        <h3 class="font-playfair text-2xl font-bold mt-1">Lush Green Celebration Space</h3>
+                        <p class="text-xs text-[#FAF8F4]/80 mt-1">Spacious lawns tailored for royal setups and bespoke open-air decors.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 7. BANQUET SECTION -->
+<section id="banquet" class="py-24 bg-[#0D1826] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <!-- Image -->
+            <div class="order-2 lg:order-1" data-aos="fade-right">
+                <div class="relative overflow-hidden rounded-2xl shadow-2xl border border-[#C9A96E]/30">
+                    <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1000&q=80" alt="Banquet Hall at Royal Bagh Villa" class="w-full h-[420px] sm:h-[480px] object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/80 via-transparent to-transparent"></div>
+                </div>
+            </div>
+
+            <!-- Content -->
+            <div class="order-1 lg:order-2" data-aos="fade-left">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Indoor Splendor</span>
+                <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                    Elegant Spaces for <br>
+                    <span class="text-[#C9A96E] italic font-normal">Every Occasion.</span>
+                </h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mb-6"></div>
+                <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed mb-6">
+                    A climate-controlled, architecturally refined banquet hall crafted for grandeur. Fitted with modern acoustics, opulent chandeliers, and flexible layouts to host your most prestigious moments.
+                </p>
+
+                <!-- Events List -->
+                <div class="grid grid-cols-2 gap-4 mb-6">
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Weddings & Receptions</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Birthday Parties</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Corporate Events</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Family Functions</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-sm text-[#FAF8F4]/90 col-span-2">
+                        <i data-lucide="check" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Private Celebrations</span>
+                    </div>
+                </div>
+
+                <div class="p-4 rounded-lg bg-[#121F33] border border-[#C9A96E]/30 mb-8">
+                    <p class="text-sm text-[#C9A96E] font-medium flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                        <span>Custom menus and event arrangements available.</span>
+                    </p>
+                </div>
+
+                <a href="#enquiry" class="inline-flex items-center gap-2 px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/20">
+                    <span>Get Event Quote</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 8. WHY ROYAL BAGH -->
+<section class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Excellence in Hospitality</span>
+            <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                Why Royal Bagh Villa
+            </h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed">
+                We combine architectural elegance with genuine warmth to make every event effortless and memorable.
+            </p>
+        </div>
+
+        <!-- 6-Point Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- 1. Beautiful Venue -->
+            <div class="bg-[#121F33] p-8 rounded-xl border border-[#C9A96E]/20 hover:border-[#C9A96E] transition-all duration-300" data-aos="fade-up" data-aos-delay="100">
+                <div class="w-12 h-12 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mb-5">
+                    <i data-lucide="castle" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-3">Beautiful Venue</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed">Aesthetically curated spaces that offer cinematic backdrops for photography and memories.</p>
+            </div>
+
+            <!-- 2. Multiple Event Spaces -->
+            <div class="bg-[#121F33] p-8 rounded-xl border border-[#C9A96E]/20 hover:border-[#C9A96E] transition-all duration-300" data-aos="fade-up" data-aos-delay="150">
+                <div class="w-12 h-12 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mb-5">
+                    <i data-lucide="layout-grid" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-3">Multiple Event Spaces</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed">Choose from an artisanal cafe, indoor banquet hall, dining restaurant, and sprawling outdoor lawn.</p>
+            </div>
+
+            <!-- 3. Cafe & Restaurant -->
+            <div class="bg-[#121F33] p-8 rounded-xl border border-[#C9A96E]/20 hover:border-[#C9A96E] transition-all duration-300" data-aos="fade-up" data-aos-delay="200">
+                <div class="w-12 h-12 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mb-5">
+                    <i data-lucide="utensils-crossed" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-3">Cafe & Restaurant</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed">Delectable multi-cuisine food crafted in-house by skilled chefs with both veg and non-veg delicacies.</p>
+            </div>
+
+            <!-- 4. Outdoor Lawn -->
+            <div class="bg-[#121F33] p-8 rounded-xl border border-[#C9A96E]/20 hover:border-[#C9A96E] transition-all duration-300" data-aos="fade-up" data-aos-delay="250">
+                <div class="w-12 h-12 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mb-5">
+                    <i data-lucide="sun" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-3">Outdoor Lawn</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed">Open-sky lawn surrounded by natural greenery for high-capacity gatherings and fairytale evenings.</p>
+            </div>
+
+            <!-- 5. Convenient Location -->
+            <div class="bg-[#121F33] p-8 rounded-xl border border-[#C9A96E]/20 hover:border-[#C9A96E] transition-all duration-300" data-aos="fade-up" data-aos-delay="300">
+                <div class="w-12 h-12 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mb-5">
+                    <i data-lucide="map-pin" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-3">Convenient Location</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed">Centrally accessible in Dehradun with straightforward directions and ample on-site guest parking.</p>
+            </div>
+
+            <!-- 6. Personalised Event Experience -->
+            <div class="bg-[#121F33] p-8 rounded-xl border border-[#C9A96E]/20 hover:border-[#C9A96E] transition-all duration-300" data-aos="fade-up" data-aos-delay="350">
+                <div class="w-12 h-12 rounded-lg bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mb-5">
+                    <i data-lucide="heart-handshake" class="w-6 h-6"></i>
+                </div>
+                <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-3">Personalised Event Experience</h3>
+                <p class="text-[#FAF8F4]/70 text-sm leading-relaxed">Dedicated coordination from initial planning to day-of execution ensuring your peace of mind.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 9. GALLERY SECTION -->
+<section id="gallery" class="py-24 bg-[#0D1826] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-12" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Visual Showcase</span>
+            <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                Moments at Royal Bagh
+            </h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed">
+                Explore our distinct spaces, culinary creations, and recent celebrations.
+            </p>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12" data-aos="fade-up">
+            <button onclick="filterGallery('all')" class="gallery-tab active px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#C9A96E] text-[#0B131F]">All</button>
+            <button onclick="filterGallery('cafe')" class="gallery-tab px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#121F33] text-[#FAF8F4] hover:bg-[#C9A96E]/20">Cafe</button>
+            <button onclick="filterGallery('restaurant')" class="gallery-tab px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#121F33] text-[#FAF8F4] hover:bg-[#C9A96E]/20">Restaurant</button>
+            <button onclick="filterGallery('lawn')" class="gallery-tab px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#121F33] text-[#FAF8F4] hover:bg-[#C9A96E]/20">Lawn</button>
+            <button onclick="filterGallery('events')" class="gallery-tab px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#121F33] text-[#FAF8F4] hover:bg-[#C9A96E]/20">Events</button>
+            <button onclick="filterGallery('property')" class="gallery-tab px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#121F33] text-[#FAF8F4] hover:bg-[#C9A96E]/20">Property</button>
+            <button onclick="filterGallery('food')" class="gallery-tab px-5 py-2 rounded-full text-xs sm:text-sm font-medium transition-all bg-[#121F33] text-[#FAF8F4] hover:bg-[#C9A96E]/20">Food</button>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Property / Lawn -->
+            <div class="gallery-item property lawn relative h-72 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="property lawn">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=800&q=80" alt="Royal Bagh Villa Property Grounds" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div>
+                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Property & Lawn</span>
+                        <h4 class="font-playfair text-lg text-white font-semibold">Grand Celebration Lawn</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cafe -->
+            <div class="gallery-item cafe relative h-72 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="cafe">
+                <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=800&q=80" alt="Cafe Interior" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div>
+                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Cafe</span>
+                        <h4 class="font-playfair text-lg text-white font-semibold">Artisanal Coffee & Conversations</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Restaurant / Food -->
+            <div class="gallery-item restaurant food relative h-72 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="restaurant food">
+                <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&q=80" alt="Signature Gourmet Platter" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div>
+                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Food & Restaurant</span>
+                        <h4 class="font-playfair text-lg text-white font-semibold">Gourmet Creations</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events -->
+            <div class="gallery-item events relative h-72 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="events">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=800&q=80" alt="Banquet Hall Setup" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div>
+                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Events</span>
+                        <h4 class="font-playfair text-lg text-white font-semibold">Elegant Banquet Gathering</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lawn / Events -->
+            <div class="gallery-item lawn events relative h-72 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="lawn events">
+                <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=800&q=80" alt="Outdoor Lawn Wedding Reception" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div>
+                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Lawn & Events</span>
+                        <h4 class="font-playfair text-lg text-white font-semibold">Open-Sky Wedding Setup</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Food / Cafe -->
+            <div class="gallery-item food cafe relative h-72 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="food cafe">
+                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800&q=80" alt="Handcrafted Beverage" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                    <div>
+                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Food</span>
+                        <h4 class="font-playfair text-lg text-white font-semibold">Artisanal Hot & Cold Brews</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 10. EVENT ENQUIRY SECTION (Primary Conversion Goal) -->
+<section id="enquiry" class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15 relative">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 p-8 sm:p-12 shadow-2xl relative overflow-hidden" data-aos="fade-up">
+            <div class="text-center mb-10">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Reservations & Bookings</span>
+                <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-4">
+                    Planning Something Special?
+                </h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-4"></div>
+                <p class="text-[#FAF8F4]/75 text-sm sm:text-base max-w-xl mx-auto">
+                    Share your event vision with us. Our hospitality team will promptly assist you with dates, customized packages, and availability.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <form action="{{ url_for('main_bp.enquiry') }}" method="POST" class="space-y-6">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <!-- Name -->
+                    <div>
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Name *</label>
+                        <input type="text" name="name" required placeholder="Your Full Name" class="w-full px-4 py-3.5 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-[#FAF8F4] placeholder-[#FAF8F4]/30 focus:border-[#C9A96E] focus:outline-none focus:ring-1 focus:ring-[#C9A96E] text-sm">
+                    </div>
+
+                    <!-- Phone Number -->
+                    <div>
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Phone Number *</label>
+                        <input type="tel" name="phone" required placeholder="10-digit mobile number" class="w-full px-4 py-3.5 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-[#FAF8F4] placeholder-[#FAF8F4]/30 focus:border-[#C9A96E] focus:outline-none focus:ring-1 focus:ring-[#C9A96E] text-sm">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                    <!-- Event Type -->
+                    <div>
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Event Type *</label>
+                        <select name="event_type" required class="w-full px-4 py-3.5 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-[#FAF8F4] focus:border-[#C9A96E] focus:outline-none focus:ring-1 focus:ring-[#C9A96E] text-sm">
+                            <option value="Birthday Party" class="bg-[#0B131F]">Birthday Celebration</option>
+                            <option value="Kitty Party" class="bg-[#0B131F]">Kitty Party</option>
+                            <option value="Wedding / Reception" class="bg-[#0B131F]">Wedding / Reception</option>
+                            <option value="Anniversary" class="bg-[#0B131F]">Anniversary</option>
+                            <option value="Corporate Event" class="bg-[#0B131F]">Corporate Event</option>
+                            <option value="Private Party" class="bg-[#0B131F]">Private Party</option>
+                            <option value="Family Function" class="bg-[#0B131F]">Family Function</option>
+                            <option value="Cafe / Table Reservation" class="bg-[#0B131F]">Cafe / Table Reservation</option>
+                            <option value="Other" class="bg-[#0B131F]">Other Celebration</option>
+                        </select>
+                    </div>
+
+                    <!-- Event Date -->
+                    <div>
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Event Date</label>
+                        <input type="date" name="event_date" class="w-full px-4 py-3.5 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-[#FAF8F4] focus:border-[#C9A96E] focus:outline-none focus:ring-1 focus:ring-[#C9A96E] text-sm">
+                    </div>
+
+                    <!-- Number of Guests -->
+                    <div>
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Number of Guests</label>
+                        <input type="number" name="guests" min="1" placeholder="e.g. 25, 100, 300" class="w-full px-4 py-3.5 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-[#FAF8F4] placeholder-[#FAF8F4]/30 focus:border-[#C9A96E] focus:outline-none focus:ring-1 focus:ring-[#C9A96E] text-sm">
+                    </div>
+                </div>
+
+                <!-- Message -->
+                <div>
+                    <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Message / Special Requests</label>
+                    <textarea name="message" rows="3" placeholder="Tell us about decor, food preferences, or specific timing requirements..." class="w-full px-4 py-3.5 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-[#FAF8F4] placeholder-[#FAF8F4]/30 focus:border-[#C9A96E] focus:outline-none focus:ring-1 focus:ring-[#C9A96E] text-sm"></textarea>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="w-full py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/30 text-base tracking-wide flex items-center justify-center gap-2">
+                    <i data-lucide="send" class="w-4 h-4"></i>
+                    <span>Send Enquiry</span>
+                </button>
+            </form>
+
+            <!-- Prefer WhatsApp -->
+            <div class="mt-8 pt-8 border-t border-[#C9A96E]/20 text-center">
+                <p class="text-sm text-[#FAF8F4]/80 mb-3">Prefer an immediate response via chat?</p>
+                <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[#25D366] hover:text-[#25D366]/90 font-medium text-sm transition-colors">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>Prefer WhatsApp? Chat With Us</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 11. DIRECT CONTACT CTA -->
+<section class="py-20 bg-[#080D15] border-t border-[#C9A96E]/15">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+        <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-4">
+            Let's Make Your Next Celebration Special.
+        </h2>
+        <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+        <p class="text-[#FAF8F4]/75 text-base sm:text-lg max-w-2xl mx-auto mb-10">
+            Call our hospitality specialists directly or connect immediately on WhatsApp.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center items-center gap-5">
+            <a href="tel:9762278230" class="w-full sm:w-auto px-9 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl flex items-center justify-center gap-2.5 text-base tracking-wide">
+                <i data-lucide="phone" class="w-5 h-5"></i>
+                <span>Call Now: 9762278230</span>
+            </a>
+            <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-9 py-4 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition-all duration-300 shadow-xl flex items-center justify-center gap-2.5 text-base tracking-wide">
+                <i data-lucide="message-circle" class="w-5 h-5"></i>
+                <span>WhatsApp Now</span>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- 12. ABOUT SECTION -->
+<section id="about" class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+            <div data-aos="fade-right">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Our Story & Vision</span>
+                <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                    Welcome to <br>
+                    <span class="text-[#C9A96E] italic font-normal">Royal Bagh Villa</span>
+                </h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mb-6"></div>
+                <p class="text-[#FAF8F4]/80 text-base leading-relaxed mb-6">
+                    Royal Bagh Villa is envisioned as Dehradun's premier destination for hospitality and milestone celebrations. Rooted in refined aesthetics, genuine warmth, and culinary craftsmanship, our property was designed for those who value elegance and distinction.
+                </p>
+                <p class="text-[#FAF8F4]/75 text-base leading-relaxed mb-8">
+                    From your casual morning espresso at the cafe to grand evening receptions under the open sky on our lush lawn, Royal Bagh Villa unites every dimension of hospitality into one seamless, unforgettable experience.
+                </p>
+
+                <div class="flex items-center gap-6">
+                    <div>
+                        <span class="font-playfair text-3xl text-[#C9A96E] font-bold block">100%</span>
+                        <span class="text-xs text-[#FAF8F4]/70 uppercase tracking-wider">Dedicated Hospitality</span>
+                    </div>
+                    <div class="w-px h-10 bg-[#C9A96E]/30"></div>
+                    <div>
+                        <span class="font-playfair text-3xl text-[#C9A96E] font-bold block">Dehradun</span>
+                        <span class="text-xs text-[#FAF8F4]/70 uppercase tracking-wider">Uttarakhand</span>
+                    </div>
+                </div>
+            </div>
+
+            <div data-aos="fade-left">
+                <div class="relative overflow-hidden rounded-2xl shadow-2xl border border-[#C9A96E]/30">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80" alt="Royal Bagh Villa Architecture" class="w-full h-[440px] object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/70 via-transparent to-transparent"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 13. LOCATION SECTION -->
+<section id="location" class="py-24 bg-[#0D1826] border-t border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Visit Us</span>
+            <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
+                Location & Directions
+            </h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed">
+                Royal Bagh Villa, Dehradun, Uttarakhand. Easy accessibility with ample guest parking.
+            </p>
+        </div>
+
+        <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/20 p-8 sm:p-12 shadow-2xl max-w-4xl mx-auto text-center" data-aos="fade-up">
+            <div class="w-16 h-16 rounded-full bg-[#C9A96E]/15 flex items-center justify-center text-[#C9A96E] mx-auto mb-6">
+                <i data-lucide="map-pin" class="w-8 h-8"></i>
+            </div>
+            
+            <h3 class="font-playfair text-2xl sm:text-3xl text-white font-semibold mb-2">Royal Bagh Villa</h3>
+            <p class="text-[#C9A96E] text-base mb-8">Dehradun, Uttarakhand</p>
+
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                <a href="https://maps.google.com/?q=Royal+Bagh+Villa+Dehradun" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-3.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 flex items-center justify-center gap-2">
+                    <i data-lucide="navigation" class="w-4 h-4"></i>
+                    <span>Get Directions on Google Maps</span>
+                </a>
+                <a href="tel:9762278230" class="w-full sm:w-auto px-8 py-3.5 bg-[#141E2E] hover:bg-[#C9A96E]/20 text-[#FAF8F4] border border-[#C9A96E]/40 font-semibold rounded-md transition-all duration-300 flex items-center justify-center gap-2">
+                    <i data-lucide="phone" class="w-4 h-4 text-[#C9A96E]"></i>
+                    <span>Call: 9762278230</span>
+                </a>
+                <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-3.5 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition-all duration-300 flex items-center justify-center gap-2">
+                    <i data-lucide="message-circle" class="w-4 h-4"></i>
+                    <span>WhatsApp</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // Gallery Filtering Script
+    function filterGallery(category) {
+        const tabs = document.querySelectorAll('.gallery-tab');
+        tabs.forEach(tab => {
+            tab.classList.remove('bg-[#C9A96E]', 'text-[#0B131F]');
+            tab.classList.add('bg-[#121F33]', 'text-[#FAF8F4]');
+        });
+
+        // Highlight active tab
+        const activeBtn = event.target;
+        if (activeBtn) {
+            activeBtn.classList.add('bg-[#C9A96E]', 'text-[#0B131F]');
+            activeBtn.classList.remove('bg-[#121F33]', 'text-[#FAF8F4]');
+        }
+
+        const items = document.querySelectorAll('.gallery-item');
+        items.forEach(item => {
+            if (category === 'all') {
+                item.style.display = 'block';
+            } else {
+                const categories = item.getAttribute('data-category') || '';
+                if (categories.includes(category)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            }
+        });
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% block title %}Checkout | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block content %}
+<div class="bg-[#0B131F] min-h-screen pt-32 pb-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="font-playfair text-3xl sm:text-4xl text-white font-bold mb-8 text-center" data-aos="fade-down">Complete Your Order</h1>
+        
+        <form action="{{ url_for('order_bp.place_order') }}" method="POST" class="flex flex-col lg:flex-row gap-8">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <div class="w-full lg:w-2/3" data-aos="fade-right">
+                <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/25 p-6 sm:p-8 shadow-xl">
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Guest Details</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Full Name *</label>
+                            <input type="text" name="customer_name" required placeholder="Your Name" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Phone Number *</label>
+                            <input type="tel" name="customer_phone" required placeholder="10-digit mobile" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Email Address (Optional)</label>
+                            <input type="email" name="customer_email" placeholder="you@example.com" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                    </div>
+                    
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Dining Option</h2>
+                    
+                    <div class="mb-6">
+                        <label class="block text-xs font-medium text-[#FAF8F4]/80 uppercase tracking-wider mb-3">Order Type</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <label class="cursor-pointer">
+                                <input type="radio" name="order_type" value="dine_in" class="peer sr-only" checked onchange="toggleOrderFields()">
+                                <div class="p-3 text-center rounded-lg border border-white/10 peer-checked:border-[#C9A96E] peer-checked:bg-[#C9A96E]/15 peer-checked:text-[#C9A96E] transition text-sm">
+                                    Dine-in
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="order_type" value="takeaway" class="peer sr-only" onchange="toggleOrderFields()">
+                                <div class="p-3 text-center rounded-lg border border-white/10 peer-checked:border-[#C9A96E] peer-checked:bg-[#C9A96E]/15 peer-checked:text-[#C9A96E] transition text-sm">
+                                    Takeaway
+                                </div>
+                            </label>
+                            <label class="cursor-pointer">
+                                <input type="radio" name="order_type" value="room_delivery" class="peer sr-only" onchange="toggleOrderFields()">
+                                <div class="p-3 text-center rounded-lg border border-white/10 peer-checked:border-[#C9A96E] peer-checked:bg-[#C9A96E]/15 peer-checked:text-[#C9A96E] transition text-sm">
+                                    Room Delivery
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div id="dine-in-fields" class="mb-6">
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Table Number (If Seated)</label>
+                        <input type="text" name="table_number" placeholder="e.g. Table 4" class="w-full sm:w-1/2 px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                    </div>
+                    
+                    <div id="room-fields" class="mb-6 hidden">
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Room Number</label>
+                        <input type="text" name="room_number" placeholder="e.g. Suite 101" class="w-full sm:w-1/2 px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                    </div>
+                    
+                    <div class="mb-8">
+                        <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Special Instructions / Allergies</label>
+                        <textarea name="notes" rows="2" placeholder="Spice preferences, extra cutlery, timing notes..." class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none"></textarea>
+                    </div>
+                    
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Payment Mode</h2>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 p-4 border border-[#C9A96E]/40 rounded-xl bg-[#0B131F] cursor-pointer">
+                            <input type="radio" name="payment_mode" value="pay_at_venue" checked class="text-[#C9A96E] focus:ring-[#C9A96E]">
+                            <div>
+                                <div class="font-medium text-white text-sm">Pay at Venue / Cash / UPI</div>
+                                <div class="text-xs text-[#FAF8F4]/60">Settle your bill in person at the restaurant or via UPI on delivery.</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary Sidebar -->
+            <div class="w-full lg:w-1/3" data-aos="fade-left">
+                <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 p-6 sticky top-28 shadow-xl">
+                    <h3 class="font-playfair text-xl text-white font-bold mb-6 border-b border-[#C9A96E]/20 pb-3">Order Total</h3>
+                    
+                    <div class="space-y-3 font-inter text-sm mb-6">
+                        <div class="flex justify-between text-[#FAF8F4]/80">
+                            <span>Subtotal</span>
+                            <span class="font-medium text-white">₹{{ subtotal }}</span>
+                        </div>
+                        <div class="flex justify-between text-[#FAF8F4]/80">
+                            <span>Taxes (5% GST)</span>
+                            <span class="font-medium text-white">₹{{ taxes }}</span>
+                        </div>
+                        <div class="border-t border-white/10 pt-4 flex justify-between items-center">
+                            <span class="font-playfair text-lg font-bold text-white">Total</span>
+                            <span class="font-playfair text-2xl font-bold text-[#C9A96E]">₹{{ total }}</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] py-4 rounded-md font-semibold transition shadow-xl text-sm tracking-wide mb-4">
+                        Place Order Now
+                    </button>
+                    
+                    <a href="{{ url_for('order_bp.cart') }}" class="block text-center text-xs text-[#FAF8F4]/70 hover:text-[#C9A96E] transition">
+                        ← Modify Cart Items
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function toggleOrderFields() {
+        const orderType = document.querySelector('input[name="order_type"]:checked').value;
+        const dineInFields = document.getElementById('dine-in-fields');
+        const roomFields = document.getElementById('room-fields');
+        
+        if (orderType === 'dine_in') {
+            dineInFields.classList.remove('hidden');
+            roomFields.classList.add('hidden');
+        } else if (orderType === 'room_delivery') {
+            dineInFields.classList.add('hidden');
+            roomFields.classList.remove('hidden');
+        } else {
+            dineInFields.classList.add('hidden');
+            roomFields.classList.add('hidden');
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% macro room_card(room) %}
+<div class="room-card bg-[#121F33] rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-[#C9A96E]/25 hover:border-[#C9A96E] flex flex-col h-full group">
+    <div class="relative overflow-hidden aspect-[4/3] sm:aspect-[3/2]">
+        {% set image_url = 'https://images.unsplash.com/photo-1618773928120-2c15c3d97c01?w=800' %}
+        {% if room.images and room.images|length > 0 %}
+            {% set image_url = room.images[0] %}
+        {% endif %}
+        
+        <img src="{{ image_url }}" alt="{{ room.name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent opacity-90"></div>
+        
+        <!-- Top Badges -->
+        <div class="absolute top-4 right-4 flex flex-col items-end gap-2">
+            <div class="bg-[#0B131F]/90 backdrop-blur text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 border border-white/10">
+                <i data-lucide="users" class="w-3.5 h-3.5 text-[#C9A96E]"></i>
+                Up to {{ room.max_guests }} Guests
+            </div>
+            {% if not room.is_available %}
+            <div class="bg-red-600/90 backdrop-blur text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg">
+                Unavailable
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Bottom Info overlaying image -->
+        <div class="absolute bottom-4 left-4 right-4 text-white">
+            <h3 class="font-playfair font-semibold text-2xl mb-1">{{ room.name }}</h3>
+            <div class="flex items-baseline gap-1">
+                <span class="text-2xl font-bold text-[#C9A96E]">₹{{ '%.0f'|format(room.price_per_night) }}</span>
+                <span class="text-xs text-white/80">/ night</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="p-6 flex-grow flex flex-col">
+        <p class="text-xs text-[#FAF8F4]/70 line-clamp-3 mb-5 flex-grow leading-relaxed">{{ room.description }}</p>
+        
+        <!-- Amenities (Top 4) -->
+        <div class="mb-6">
+            <h4 class="text-[11px] font-semibold text-[#C9A96E] uppercase tracking-wider mb-3">Room Highlights</h4>
+            <div class="grid grid-cols-2 gap-2.5">
+                {% if room.amenities and room.amenities|length > 0 %}
+                    {% for amenity in room.amenities[:4] %}
+                    <div class="flex items-center gap-2 text-xs text-white/90">
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-[#C9A96E] flex-shrink-0"></i>
+                        <span class="truncate">{{ amenity }}</span>
+                    </div>
+                    {% endfor %}
+                    {% if room.amenities|length > 4 %}
+                    <div class="text-[11px] text-[#C9A96E] italic mt-1 col-span-2">
+                        + {{ room.amenities|length - 4 }} more amenities
+                    </div>
+                    {% endif %}
+                {% else %}
+                    <div class="flex items-center gap-2 text-xs text-white/90"><i data-lucide="wifi" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Free Wi-Fi</div>
+                    <div class="flex items-center gap-2 text-xs text-white/90"><i data-lucide="tv" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Smart TV</div>
+                    <div class="flex items-center gap-2 text-xs text-white/90"><i data-lucide="wind" class="w-3.5 h-3.5 text-[#C9A96E]"></i> AC</div>
+                    <div class="flex items-center gap-2 text-xs text-white/90"><i data-lucide="coffee" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Room Service</div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="flex items-center gap-3 mt-auto pt-4 border-t border-white/10">
+            <a href="{{ url_for('rooms_bp.room_detail', slug=room.slug) }}" class="flex-1 py-2.5 border border-[#C9A96E]/50 text-[#C9A96E] text-center text-xs font-semibold rounded hover:bg-[#C9A96E]/20 transition-colors">Details</a>
+            {% if room.is_available %}
+            <a href="{{ url_for('rooms_bp.book', slug=room.slug) }}" class="flex-1 py-2.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] text-center text-xs font-semibold rounded transition-colors shadow">Book Now</a>
+            {% else %}
+            <button disabled class="flex-1 py-2.5 bg-white/10 text-white/40 text-center text-xs font-medium rounded cursor-not-allowed">Sold Out</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endmacro %}

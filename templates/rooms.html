@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Luxury Stays & Accommodations | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Stay in luxury at Royal Bagh Villa, Dehradun. Elegantly appointed rooms and suites with scenic mountain and garden views.">
+{% endblock %}
+
+{% block content %}
+<section class="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-[#0B131F] pt-20">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1600&q=80" alt="Royal Bagh Villa Stay" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/80 to-[#0B131F]/70"></div>
+    </div>
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-16" data-aos="fade-up">
+        <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Boutique Accommodations</span>
+        <h1 class="font-playfair text-4xl sm:text-6xl text-[#FAF8F4] font-bold mb-4 leading-tight">
+            Comfortable & <span class="text-[#C9A96E] italic font-normal">Elegant Stay.</span>
+        </h1>
+        <p class="text-[#FAF8F4]/80 text-base sm:text-lg max-w-2xl mx-auto">
+            Your home away from home in the tranquil foothills of Dehradun.
+        </p>
+    </div>
+</section>
+
+<!-- Accommodations Listing -->
+<section class="py-20 bg-[#0B131F]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Our Suites</span>
+            <h2 class="font-playfair text-3xl sm:text-4xl text-[#FAF8F4] font-bold mb-4">Refined Spaces for Rest</h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base">All accommodations feature luxury bedding, ensuite bath amenities, and warm room service.</p>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% from 'components/room_card.html' import room_card %}
+            {% for room in rooms %}
+                {{ room_card(room) }}
+            {% endfor %}
+            {% if not rooms %}
+                <div class="col-span-full text-center py-16 bg-[#121F33] rounded-2xl border border-[#C9A96E]/20">
+                    <p class="text-[#FAF8F4]/70 text-base">Please contact front desk for room availability.</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+{% endblock %}

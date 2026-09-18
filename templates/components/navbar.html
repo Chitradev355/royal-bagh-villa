@@ -1,0 +1,114 @@
+<!-- Main Sticky Navbar -->
+<nav class="navbar sticky top-0 w-full z-50 transition-all duration-300 bg-[#0B131F]/95 backdrop-blur-md border-b border-[#C9A96E]/20 shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            <!-- Logo -->
+            <div class="flex-shrink-0 flex items-center">
+                <a href="{{ url_for('main_bp.index') }}" class="group flex flex-col leading-none">
+                    <span class="font-playfair font-bold text-2xl lg:text-3xl text-[#FAF8F4] group-hover:text-[#C9A96E] transition-colors tracking-wide">
+                        Royal Bagh <span class="text-[#C9A96E]">Villa</span>
+                    </span>
+                    <span class="text-[11px] tracking-[0.25em] text-[#C9A96E]/80 uppercase font-inter mt-1">
+                        Dehradun
+                    </span>
+                </a>
+            </div>
+
+            <!-- Desktop Nav Links -->
+            <div class="hidden lg:flex items-center space-x-6 xl:space-x-7">
+                <a href="{{ url_for('main_bp.index') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide {% if request.endpoint == 'main_bp.index' and not request.path.endswith('#') %}text-[#C9A96E]{% endif %}">Home</a>
+                <a href="{{ url_for('cafe_bp.index') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">Cafe</a>
+                <a href="{{ url_for('restaurant_bp.index') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">Restaurant</a>
+                <a href="{{ url_for('main_bp.events') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">Events</a>
+                <a href="{{ url_for('lawn_bp.index') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">Lawn</a>
+                <a href="{{ url_for('main_bp.gallery') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">Gallery</a>
+                <a href="{{ url_for('main_bp.about') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">About</a>
+                <a href="{{ url_for('main_bp.contact') }}" class="text-sm font-medium text-[#FAF8F4]/90 hover:text-[#C9A96E] transition-colors tracking-wide">Contact</a>
+            </div>
+
+            <!-- Right CTA Button -->
+            <div class="hidden lg:flex items-center space-x-4">
+                <a href="tel:9762278230" class="text-sm text-[#C9A96E] hover:text-[#FAF8F4] flex items-center gap-1.5 transition-colors font-medium">
+                    <i data-lucide="phone" class="w-4 h-4"></i>
+                    <span>9762278230</span>
+                </a>
+                <a href="{{ url_for('main_bp.index') }}#enquiry" class="px-5 py-2.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold text-sm tracking-wide rounded-md transition-all duration-300 shadow-md hover:shadow-[#C9A96E]/20 hover:scale-[1.02]">
+                    Book / Enquire
+                </a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="flex items-center lg:hidden gap-3">
+                <a href="tel:9762278230" class="p-2 text-[#C9A96E] hover:text-white" aria-label="Call Royal Bagh Villa">
+                    <i data-lucide="phone" class="w-5 h-5"></i>
+                </a>
+                <button type="button" class="mobile-menu-btn inline-flex items-center justify-center p-2 rounded-md text-[#FAF8F4] hover:text-[#C9A96E] hover:bg-[#141E2E] focus:outline-none" aria-controls="mobile-menu" aria-expanded="false" aria-label="Toggle navigation">
+                    <i data-lucide="menu" class="block h-6 w-6"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div class="mobile-menu fixed inset-0 z-50 bg-[#0B131F]/98 backdrop-blur-2xl transform translate-x-full transition-transform duration-300 flex flex-col" id="mobile-menu">
+    <div class="flex justify-between items-center p-6 border-b border-[#C9A96E]/20">
+        <div>
+            <span class="font-playfair font-bold text-2xl text-[#FAF8F4]">Royal Bagh <span class="text-[#C9A96E]">Villa</span></span>
+            <span class="block text-xs text-[#C9A96E]/80 tracking-widest uppercase">Dehradun</span>
+        </div>
+        <button type="button" class="mobile-menu-close p-2 text-[#FAF8F4] hover:text-[#C9A96E]" aria-label="Close menu">
+            <i data-lucide="x" class="h-7 w-7"></i>
+        </button>
+    </div>
+    <div class="flex-1 overflow-y-auto py-6 px-6 flex flex-col gap-5">
+        <div class="flex flex-col space-y-4">
+            <a href="{{ url_for('main_bp.index') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Home</a>
+            <a href="{{ url_for('cafe_bp.index') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Cafe</a>
+            <a href="{{ url_for('restaurant_bp.index') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Restaurant</a>
+            <a href="{{ url_for('main_bp.events') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Events</a>
+            <a href="{{ url_for('lawn_bp.index') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Lawn</a>
+            <a href="{{ url_for('main_bp.gallery') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Gallery</a>
+            <a href="{{ url_for('main_bp.about') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">About</a>
+            <a href="{{ url_for('main_bp.contact') }}" class="text-lg font-medium text-[#FAF8F4] hover:text-[#C9A96E] transition-colors py-1">Contact</a>
+        </div>
+        <div class="mt-auto flex flex-col gap-3 border-t border-[#C9A96E]/20 pt-6">
+            <a href="tel:9762278230" class="w-full py-3 border border-[#C9A96E] text-[#C9A96E] text-center font-medium rounded-md flex items-center justify-center gap-2">
+                <i data-lucide="phone" class="w-4 h-4"></i> Call: 9762278230
+            </a>
+            <a href="{{ url_for('main_bp.index') }}#enquiry" class="w-full py-3 bg-[#C9A96E] text-[#0B131F] text-center font-semibold rounded-md shadow-md">
+                Book / Enquire
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const btn = document.querySelector('.mobile-menu-btn');
+        const closeBtn = document.querySelector('.mobile-menu-close');
+        const menu = document.querySelector('.mobile-menu');
+        const links = menu.querySelectorAll('a');
+
+        if (btn && menu) {
+            btn.addEventListener('click', () => {
+                menu.classList.remove('translate-x-full');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeBtn && menu) {
+            closeBtn.addEventListener('click', () => {
+                menu.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        links.forEach(l => {
+            l.addEventListener('click', () => {
+                menu.classList.add('translate-x-full');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    });
+</script>

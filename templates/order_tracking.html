@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}Live Order Status | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block meta %}
+<meta http-equiv="refresh" content="30">
+{% endblock %}
+
+{% block content %}
+<div class="bg-[#0B131F] min-h-screen pt-32 pb-20">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-8" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-2">Live Preparation Status</span>
+            <h1 class="font-playfair text-3xl sm:text-4xl text-white font-bold mb-2">Order #{{ order.order_id }}</h1>
+            <p class="text-xs text-[#FAF8F4]/70">Auto-refreshes every 30 seconds</p>
+        </div>
+        
+        <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 p-6 sm:p-8 mb-8 shadow-xl" data-aos="fade-up" data-aos-delay="100">
+            {% from 'components/booking_status.html' import status_tracker %}
+            {{ status_tracker(['Placed', 'Confirmed', 'Preparing', 'Ready', 'Completed'], order.get_status_index()) }}
+        </div>
+        
+        <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/20 p-6 sm:p-8 shadow-xl" data-aos="fade-up" data-aos-delay="200">
+            <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Order Details</h2>
+            
+            <div class="grid grid-cols-2 gap-4 text-sm mb-6 pb-6 border-b border-white/10">
+                <div>
+                    <span class="block text-xs text-[#FAF8F4]/60 mb-1">Customer</span>
+                    <span class="font-medium text-white">{{ order.customer_name }}</span>
+                </div>
+                <div>
+                    <span class="block text-xs text-[#FAF8F4]/60 mb-1">Phone Number</span>
+                    <span class="font-medium text-white">{{ order.customer_phone }}</span>
+                </div>
+                <div>
+                    <span class="block text-xs text-[#FAF8F4]/60 mb-1">Order Type</span>
+                    <span class="inline-block px-3 py-1 bg-[#0B131F] text-[#C9A96E] rounded-md text-xs font-medium border border-[#C9A96E]/30 uppercase">{{ order.order_type }}</span>
+                </div>
+                <div>
+                    <span class="block text-xs text-[#FAF8F4]/60 mb-1">Payment Status</span>
+                    <span class="font-medium {% if order.payment_status == 'paid' %}text-green-400{% else %}text-amber-400{% endif %} capitalize">{{ order.payment_status }}</span>
+                </div>
+            </div>
+            
+            <h3 class="text-xs font-semibold uppercase tracking-wider text-[#C9A96E] mb-4">Items Ordered</h3>
+            <div class="space-y-3 mb-6">
+                {% for item in order.items %}
+                <div class="flex justify-between items-center text-sm">
+                    <div class="flex items-center gap-2">
+                        <span class="text-[#C9A96E] font-medium">{{ item.quantity }}x</span>
+                        <span class="text-white">{{ item.menu_item.name if item.menu_item else 'Item' }}</span>
+                    </div>
+                    <span class="font-medium text-white">₹{{ item.subtotal }}</span>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="border-t border-white/10 pt-4 flex justify-between items-center">
+                <span class="text-sm font-medium text-[#FAF8F4]/80">Total Amount</span>
+                <span class="text-2xl font-playfair font-bold text-[#C9A96E]">₹{{ order.total_amount }}</span>
+            </div>
+        </div>
+        
+        <div class="text-center mt-8">
+            <a href="{{ url_for('booking_bp.check_status') }}" class="text-sm text-[#C9A96E] hover:underline flex items-center justify-center gap-1.5">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i> Check Another Order / Reservation
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

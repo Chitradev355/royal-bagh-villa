@@ -1,0 +1,127 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Dashboard | Royal Bagh Villa Admin{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block admin_content %}
+<!-- Stats Row -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center">
+        <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center mr-4">
+            <i data-lucide="utensils"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Today's Orders</p>
+            <h3 class="text-2xl font-bold text-gray-800">{{ stats.today_orders_count }}</h3>
+        </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center">
+        <div class="w-12 h-12 rounded-full bg-green-50 text-green-600 flex items-center justify-center mr-4">
+            <i data-lucide="indian-rupee"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Today's Revenue</p>
+            <h3 class="text-2xl font-bold text-gray-800">₹{{ "%.2f"|format(stats.today_revenue) }}</h3>
+        </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center">
+        <div class="w-12 h-12 rounded-full bg-purple-50 text-purple-600 flex items-center justify-center mr-4">
+            <i data-lucide="calendar"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Upcoming Events (7d)</p>
+            <h3 class="text-2xl font-bold text-gray-800">{{ stats.upcoming_events_count }}</h3>
+        </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex items-center">
+        <div class="w-12 h-12 rounded-full bg-orange-50 text-orange-600 flex items-center justify-center mr-4">
+            <i data-lucide="bed"></i>
+        </div>
+        <div>
+            <p class="text-sm text-gray-500 font-medium">Available Rooms</p>
+            <h3 class="text-2xl font-bold text-gray-800">{{ stats.available_rooms_count }}</h3>
+        </div>
+    </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <!-- Recent Orders -->
+    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
+            <h2 class="font-semibold text-gray-800">Recent Food Orders</h2>
+            <a href="{{ url_for('admin_bp.orders') }}" class="text-sm text-brand-primary hover:text-brand-gold font-medium">View All &rarr;</a>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 text-gray-600 border-b">
+                    <tr>
+                        <th class="px-6 py-3 font-medium">Order ID</th>
+                        <th class="px-6 py-3 font-medium">Customer</th>
+                        <th class="px-6 py-3 font-medium">Total</th>
+                        <th class="px-6 py-3 font-medium">Status</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for order in recent_orders %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-6 py-4 font-medium text-brand-primary">#{{ order.order_id }}</td>
+                        <td class="px-6 py-4">
+                            <div class="font-medium text-gray-800">{{ order.customer_name }}</div>
+                            <div class="text-xs text-gray-500">{{ order.order_type }}</div>
+                        </td>
+                        <td class="px-6 py-4 font-medium">₹{{ "%.2f"|format(order.total_amount) }}</td>
+                        <td class="px-6 py-4">
+                            {% set status_colors = {
+                                'placed': 'bg-yellow-100 text-yellow-800',
+                                'confirmed': 'bg-blue-100 text-blue-800',
+                                'preparing': 'bg-orange-100 text-orange-800',
+                                'ready': 'bg-green-100 text-green-800',
+                                'completed': 'bg-gray-100 text-gray-800',
+                                'cancelled': 'bg-red-100 text-red-800'
+                            } %}
+                            <span class="px-2.5 py-1 rounded-full text-xs font-medium {{ status_colors.get(order.status, 'bg-gray-100 text-gray-800') }}">
+                                {{ order.status|title }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-8 text-center text-gray-500">No recent orders.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Upcoming Events -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex flex-col">
+        <div class="px-6 py-4 border-b border-gray-100 bg-gray-50/50">
+            <h2 class="font-semibold text-gray-800">Upcoming Events (7d)</h2>
+        </div>
+        <div class="p-0 flex-1 overflow-y-auto max-h-[400px]">
+            <ul class="divide-y divide-gray-100">
+                {% for event in upcoming_events %}
+                <li class="p-6 hover:bg-gray-50 transition-colors">
+                    <div class="flex items-start">
+                        <div class="w-10 h-10 rounded-lg bg-brand-primary/10 text-brand-primary flex flex-col items-center justify-center shrink-0 mr-4">
+                            <span class="text-xs font-bold">{{ event.date.strftime('%b') }}</span>
+                            <span class="text-sm font-bold leading-none">{{ event.date.strftime('%d') }}</span>
+                        </div>
+                        <div>
+                            <h4 class="font-medium text-gray-800">{{ event.event_type|title }}</h4>
+                            <p class="text-sm text-gray-500">{{ event.customer_name }} • {{ event.guests }} Guests</p>
+                            <div class="mt-2 text-xs font-medium px-2 py-1 bg-brand-cream text-brand-primary rounded inline-block">
+                                {{ event.type }}
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                {% else %}
+                <li class="p-6 text-center text-gray-500">No upcoming events in the next 7 days.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

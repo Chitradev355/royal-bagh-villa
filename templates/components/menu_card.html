@@ -1,0 +1,46 @@
+{% macro menu_card(item) %}
+<div class="menu-card bg-[#121F33] rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-[#C9A96E]/20 hover:border-[#C9A96E] flex flex-col h-full group" data-item-id="{{ item.id }}">
+    <div class="relative overflow-hidden aspect-[4/3]">
+        <img src="{{ item.image_url or 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&q=80' }}" alt="{{ item.name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy">
+        
+        <!-- Gradient overlay -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent opacity-80"></div>
+
+        <!-- Tags -->
+        <div class="absolute top-3 left-3 flex flex-col gap-2">
+            {% if item.is_featured %}
+            <span class="bg-[#C9A96E] text-[#0B131F] text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded shadow-md">Featured</span>
+            {% endif %}
+        </div>
+        
+        <!-- Dietary indicator on image -->
+        <div class="absolute top-3 right-3 bg-[#0B131F]/90 backdrop-blur rounded p-1.5 shadow-md border border-white/10">
+            <div class="w-4 h-4 rounded-full border-2 {% if item.is_veg %}border-green-500{% else %}border-red-500{% endif %} flex items-center justify-center">
+                <span class="w-2 h-2 rounded-full {% if item.is_veg %}bg-green-500{% else %}bg-red-500{% endif %}"></span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="p-5 flex-grow flex flex-col">
+        <div class="flex items-start justify-between mb-2 gap-2">
+            <h3 class="font-playfair font-semibold text-lg text-white group-hover:text-[#C9A96E] transition-colors line-clamp-1">{{ item.name }}</h3>
+            {% if item.is_spicy %}
+            <span class="text-red-400 text-sm flex-shrink-0" title="Spicy">🌶️</span>
+            {% endif %}
+        </div>
+        
+        <p class="text-xs text-[#FAF8F4]/70 line-clamp-2 mb-4 flex-grow leading-relaxed">{{ item.description }}</p>
+        
+        <div class="flex items-center justify-between mt-auto pt-4 border-t border-[#C9A96E]/15">
+            <span class="text-lg font-bold text-[#C9A96E] font-inter">₹{{ '%.0f'|format(item.price) }}</span>
+            {% if item.is_available %}
+            <button onclick="addToCart({{ item.id }})" class="bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] text-xs font-semibold px-4 py-2 rounded transition-all shadow flex items-center gap-1.5">
+                <i data-lucide="plus" class="w-3.5 h-3.5"></i> Add
+            </button>
+            {% else %}
+            <span class="text-xs text-red-400 font-medium px-2.5 py-1 bg-red-950/40 border border-red-800/40 rounded">Out of Stock</span>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endmacro %}

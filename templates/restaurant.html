@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Fine Dining Restaurant | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Savor authentic multi-cuisine flavors at the Royal Bagh Villa Restaurant in Dehradun. Family dining, lunch, dinner, and private gathering reservations.">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="relative min-h-[55vh] flex items-center justify-center overflow-hidden bg-[#0B131F] pt-20">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600&q=80" alt="Restaurant Ambiance" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/80 to-[#0B131F]/70"></div>
+    </div>
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-16" data-aos="fade-up">
+        <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Culinary Excellence</span>
+        <h1 class="font-playfair text-4xl sm:text-6xl text-[#FAF8F4] font-bold mb-4 leading-tight">
+            Good Food. <br>
+            <span class="text-[#C9A96E] italic font-normal">Beautiful Moments.</span>
+        </h1>
+        <p class="text-[#FAF8F4]/80 text-base sm:text-lg max-w-2xl mx-auto mb-6">
+            A comfortable dining experience in Dehradun for family, friends and special occasions.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="#menu-content" class="px-8 py-3.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition shadow-xl">
+                Explore Menu Below
+            </a>
+            <a href="tel:9762278230" class="px-8 py-3.5 bg-[#141E2E] border border-[#C9A96E]/40 text-[#FAF8F4] font-semibold rounded-md hover:bg-[#C9A96E]/20 transition flex items-center gap-2">
+                <i data-lucide="phone" class="w-4 h-4 text-[#C9A96E]"></i> Reserve a Table
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Highlights Strip -->
+<section class="py-12 bg-[#0B131F] border-b border-[#C9A96E]/15">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 text-center">
+            <div class="p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/20">
+                <i data-lucide="users" class="w-6 h-6 text-[#C9A96E] mx-auto mb-2"></i>
+                <h4 class="text-sm font-semibold text-white">Family Dining</h4>
+                <p class="text-[11px] text-[#FAF8F4]/70 mt-0.5">Spacious Seating</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/20">
+                <i data-lucide="clock" class="w-6 h-6 text-[#C9A96E] mx-auto mb-2"></i>
+                <h4 class="text-sm font-semibold text-white">Lunch & Dinner</h4>
+                <p class="text-[11px] text-[#FAF8F4]/70 mt-0.5">11 AM to 11 PM</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/20">
+                <i data-lucide="leaf" class="w-6 h-6 text-[#C9A96E] mx-auto mb-2"></i>
+                <h4 class="text-sm font-semibold text-white">Veg & Non-Veg</h4>
+                <p class="text-[11px] text-[#FAF8F4]/70 mt-0.5">Curated Variety</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/20">
+                <i data-lucide="shield" class="w-6 h-6 text-[#C9A96E] mx-auto mb-2"></i>
+                <h4 class="text-sm font-semibold text-white">Private Gatherings</h4>
+                <p class="text-[11px] text-[#FAF8F4]/70 mt-0.5">Exclusive Corners</p>
+            </div>
+            <div class="p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 col-span-2 md:col-span-1">
+                <i data-lucide="sparkles" class="w-6 h-6 text-[#C9A96E] mx-auto mb-2"></i>
+                <h4 class="text-sm font-semibold text-white">Special Occasions</h4>
+                <p class="text-[11px] text-[#FAF8F4]/70 mt-0.5">Celebrations</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Menu Navigation -->
+<div id="menu-content" class="sticky top-20 z-40 bg-[#0B131F]/95 backdrop-blur-md shadow-md border-b border-[#C9A96E]/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex overflow-x-auto py-4 gap-6 no-scrollbar snap-x">
+            {% for key, section in sections.items() %}
+            <a href="#section-{{ key }}" class="snap-start whitespace-nowrap text-sm font-medium text-[#FAF8F4]/80 hover:text-[#C9A96E] transition-colors {% if loop.first %}text-[#C9A96E] font-semibold border-b-2 border-[#C9A96E] pb-1{% endif %}">
+                {{ section.title }}
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<!-- Menu Sections -->
+<section class="py-16 bg-[#0B131F]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {% from 'components/menu_card.html' import menu_card %}
+        
+        {% for key, section in sections.items() %}
+        <div id="section-{{ key }}" class="mb-20 pt-24 -mt-24">
+            <div class="text-center mb-12" data-aos="fade-up">
+                <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-2">Course Selection</span>
+                <h2 class="font-playfair text-3xl sm:text-4xl text-[#FAF8F4] font-bold mb-3">{{ section.title }}</h2>
+                <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto"></div>
+            </div>
+            
+            {% for category in section.categories %}
+            <div class="mb-14">
+                <h3 class="font-playfair text-xl text-[#C9A96E] mb-6 border-b border-[#C9A96E]/20 pb-2 flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-[#C9A96E]"></span>
+                    <span>{{ category.name }}</span>
+                </h3>
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {% for item in category.items %}
+                        {{ menu_card(item) }}
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Floating Cart Summary for Mobile -->
+{% if cart_count and cart_count > 0 %}
+<div class="fixed bottom-20 left-4 right-4 bg-[#121F33] border border-[#C9A96E] text-[#FAF8F4] py-3.5 px-5 z-40 md:hidden flex justify-between items-center rounded-xl shadow-2xl backdrop-blur-lg">
+    <div class="font-inter text-sm">
+        <span class="font-bold text-[#C9A96E]">{{ cart_count }} items</span> | <span class="font-semibold text-white">₹{{ cart_total }}</span>
+    </div>
+    <a href="{{ url_for('order_bp.cart') }}" class="bg-[#C9A96E] text-[#0B131F] text-xs px-5 py-2 rounded-md font-bold hover:bg-[#b8944f] transition shadow-md">
+        View Cart
+    </a>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Royal Bagh Villa Dehradun | Cafe, Restaurant, Lawn & Events{% endblock %}</title>
+    
+    {% block meta %}
+    <meta name="description" content="Royal Bagh Villa, Dehradun — a premium destination for cafe, restaurant, weddings, receptions, birthdays, events and celebrations. Enquire for bookings.">
+    <meta name="keywords" content="Royal Bagh Villa, Royal Bagh Villa Dehradun, cafe in dehradun, restaurant dehradun, wedding lawn dehradun, banquet hall dehradun, birthday venue dehradun, party hall dehradun">
+    <!-- Open Graph -->
+    <meta property="og:title" content="Royal Bagh Villa Dehradun | Cafe, Restaurant, Lawn & Events">
+    <meta property="og:description" content="A premium destination in Dehradun for dining, celebrations, weddings, parties and unforgettable moments.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1200&q=80">
+    {% endblock %}
+    
+    <!-- Google Fonts: Playfair Display + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'royal-dark': '#0B131F',
+                    'royal-navy': '#0D1826',
+                    'royal-card': '#121F33',
+                    'royal-charcoal': '#111827',
+                    'royal-gold': {
+                        DEFAULT: '#C9A96E',
+                        light: '#E2CEAA',
+                        dark: '#A38144'
+                    },
+                    'royal-cream': '#FAF8F4',
+                    'royal-border': 'rgba(201, 169, 110, 0.22)'
+                },
+                fontFamily: {
+                    'playfair': ['Playfair Display', 'serif'],
+                    'inter': ['Inter', 'sans-serif'],
+                },
+            }
+        }
+    }
+    </script>
+    
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block head %}{% endblock %}
+</head>
+<body class="font-inter bg-[#0B131F] text-[#FAF8F4] flex flex-col min-h-screen selection:bg-[#C9A96E] selection:text-[#0B131F]">
+    
+    {% include 'components/navbar.html' %}
+    
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div id="flash-messages" class="fixed top-24 right-4 z-50 space-y-2 max-w-md w-full px-4">
+        {% for category, message in messages %}
+        <div class="flash-msg px-6 py-4 rounded-lg shadow-2xl text-sm font-medium border flex items-center justify-between {% if category == 'success' %}bg-[#16A34A] border-green-400 text-white{% elif category == 'error' or category == 'danger' %}bg-[#DC2626] border-red-400 text-white{% elif category == 'warning' %}bg-[#D97706] border-yellow-400 text-white{% else %}bg-[#141E2E] border-[#C9A96E] text-[#FAF8F4]{% endif %} animate-slide-in">
+            <span>{{ message }}</span>
+            <button onclick="this.parentElement.remove()" class="ml-3 text-white/80 hover:text-white">&times;</button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+    
+    <!-- Main Content -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+    
+    {% include 'components/footer.html' %}
+    
+    <!-- Floating WhatsApp Button (Every page) -->
+    <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="whatsapp-float fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#1ebd5a] text-white p-3.5 sm:p-4 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border-2 border-white/20 group" aria-label="Chat with Royal Bagh Villa on WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+    
+    <!-- Floating Call Button (mobile only) -->
+    <a href="tel:9762278230" class="call-float md:hidden fixed bottom-6 left-6 z-50 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] p-3.5 rounded-full shadow-2xl transition-all duration-300 transform hover:scale-110 flex items-center justify-center border-2 border-white/20" aria-label="Call Royal Bagh Villa">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+    </a>
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed bottom-24 right-4 z-50 space-y-2"></div>
+    
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 700,
+            once: true,
+            offset: 80,
+        });
+    </script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+    
+    <!-- Custom JS -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script>
+        // Dismiss flash messages automatically
+        setTimeout(function() {
+            const flashMsgs = document.querySelectorAll('.flash-msg');
+            flashMsgs.forEach(msg => {
+                msg.style.transition = 'opacity 0.5s ease';
+                msg.style.opacity = '0';
+                setTimeout(() => msg.remove(), 500);
+            });
+        }, 5000);
+    </script>
+    
+    {% block scripts %}{% endblock %}
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": ["Restaurant", "CafeOrCoffeeShop", "EventVenue"],
+      "name": "Royal Bagh Villa",
+      "image": "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1200",
+      "telephone": "9762278230",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Dehradun",
+        "addressRegion": "Uttarakhand",
+        "addressCountry": "IN"
+      },
+      "url": "{{ request.url_root }}",
+      "servesCuisine": ["North Indian", "Continental", "Beverages", "Snacks"],
+      "priceRange": "₹₹"
+    }
+    </script>
+    {% block schema %}{% endblock %}
+</body>
+</html>

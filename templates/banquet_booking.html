@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% block title %}Book Banquet Hall | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block content %}
+<div class="bg-[#0B131F] min-h-screen pt-32 pb-20">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-10" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-2">Indoor Grandeur</span>
+            <h1 class="font-playfair text-3xl sm:text-5xl text-white font-bold mb-3">Banquet Hall Reservation</h1>
+            <p class="text-sm text-[#FAF8F4]/75">Fill in your event details below and our management team will prepare a tailored proposal.</p>
+        </div>
+        
+        <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 overflow-hidden shadow-2xl" data-aos="fade-up" data-aos-delay="100">
+            <div class="bg-[#080D15] p-6 text-center border-b border-[#C9A96E]/20">
+                <h2 class="font-playfair text-2xl text-[#C9A96E]">Event Enquiry Form</h2>
+                <p class="text-xs text-[#FAF8F4]/70 mt-1">Starting from ₹1,250 per plate (Price depends on selected menu/package, guests & decoration)</p>
+            </div>
+            
+            <form action="{{ url_for('banquet_bp.book') }}" method="POST" class="p-8 sm:p-10 space-y-8">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                
+                <!-- Event Details -->
+                <div>
+                    <h3 class="font-playfair text-lg text-white font-semibold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                        <i data-lucide="calendar" class="w-4 h-4 text-[#C9A96E]"></i> Event Details
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Event Type *</label>
+                            <select name="event_type" required class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                                <option value="">Select Event Type</option>
+                                <option value="Wedding">Wedding</option>
+                                <option value="Reception">Reception</option>
+                                <option value="Engagement">Engagement</option>
+                                <option value="Birthday Party">Birthday Party</option>
+                                <option value="Anniversary">Anniversary</option>
+                                <option value="Corporate Event">Corporate Event</option>
+                                <option value="Family Function">Family Function</option>
+                                <option value="Private Party">Private Party</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Event Date *</label>
+                            <input type="date" name="event_date" required min="{{ today }}" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Time Slot *</label>
+                            <select name="event_time" required class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                                <option value="Evening">Evening (6:00 PM – 11:30 PM)</option>
+                                <option value="Morning">Morning / Lunch (11:00 AM – 4:00 PM)</option>
+                                <option value="Full Day">Full Day</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Expected Guests *</label>
+                            <input type="number" name="guest_count" id="guest_count" min="20" placeholder="Min. 20 guests" required class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none" oninput="calculateEstimate()">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Food Preferences -->
+                <div>
+                    <h3 class="font-playfair text-lg text-white font-semibold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                        <i data-lucide="utensils" class="w-4 h-4 text-[#C9A96E]"></i> Catering & Packages
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-3">Dietary Preference *</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-2 cursor-pointer text-sm text-white">
+                                    <input type="radio" name="veg_nonveg" value="Vegetarian" class="text-[#C9A96E] focus:ring-[#C9A96E]" checked>
+                                    <span>Vegetarian</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer text-sm text-white">
+                                    <input type="radio" name="veg_nonveg" value="Non-Vegetarian" class="text-[#C9A96E] focus:ring-[#C9A96E]">
+                                    <span>Non-Vegetarian</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer text-sm text-white">
+                                    <input type="radio" name="veg_nonveg" value="Both" class="text-[#C9A96E] focus:ring-[#C9A96E]">
+                                    <span>Both</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Food Package</label>
+                            <select name="food_package" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                                <option value="Royal Gold Buffet (₹1,250+/plate)">Royal Gold Buffet (Starting ₹1,250/plate)</option>
+                                <option value="Imperial Platinum Buffet">Imperial Platinum Feast</option>
+                                <option value="Custom Menu">Custom / Decide Later</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Decoration & Additional -->
+                <div>
+                    <h3 class="font-playfair text-lg text-white font-semibold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                        <i data-lucide="sparkles" class="w-4 h-4 text-[#C9A96E]"></i> Decor & Requests
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Decoration Requirements</label>
+                            <textarea name="decoration_requirements" rows="2" placeholder="Stage decor, floral arrangements, theme colors..." class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none"></textarea>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Additional Requests</label>
+                            <textarea name="additional_requirements" rows="2" placeholder="DJ & Sound, photography, live counters..." class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Details -->
+                <div>
+                    <h3 class="font-playfair text-lg text-white font-semibold mb-4 border-b border-white/10 pb-2 flex items-center gap-2">
+                        <i data-lucide="user" class="w-4 h-4 text-[#C9A96E]"></i> Contact Information
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Full Name *</label>
+                            <input type="text" name="customer_name" required placeholder="Your Name" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Phone Number *</label>
+                            <input type="tel" name="phone" required placeholder="10-digit mobile" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Email Address (Optional)</label>
+                            <input type="email" name="email" placeholder="you@email.com" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Estimate Indicator -->
+                <div class="bg-[#080D15] border border-[#C9A96E]/30 rounded-xl p-6 text-center">
+                    <p class="text-xs text-[#FAF8F4]/70 uppercase tracking-wider mb-1">Estimated Starting Catering Quote</p>
+                    <div class="font-playfair text-3xl sm:text-4xl text-[#C9A96E] font-bold mb-2" id="estimate_display">₹0</div>
+                    <p class="text-xs text-[#FAF8F4]/60 max-w-md mx-auto">Based on starting price of ₹1,250/plate. Final price depends on selected menu/package, guests and decoration.</p>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition shadow-xl text-base tracking-wide">
+                    Submit Banquet Booking Request
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function calculateEstimate() {
+        const guests = parseInt(document.getElementById('guest_count').value) || 0;
+        const basePrice = 1250;
+        const total = guests * basePrice;
+        if (guests >= 20) {
+            document.getElementById('estimate_display').innerText = '₹' + total.toLocaleString();
+        } else {
+            document.getElementById('estimate_display').innerText = '₹0';
+        }
+    }
+</script>
+{% endblock %}

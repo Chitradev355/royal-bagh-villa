@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+{% block title %}{{ room.name }} | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block content %}
+<div class="bg-[#0B131F] min-h-screen pt-28 pb-20">
+    <!-- Image Gallery -->
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+        {% set images = room.images_list() %}
+        {% if images %}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 h-[45vh] md:h-[55vh]">
+            <div class="md:col-span-2 h-full rounded-2xl overflow-hidden border border-[#C9A96E]/20 shadow-xl">
+                <img src="{{ images[0] }}" alt="{{ room.name }}" class="w-full h-full object-cover">
+            </div>
+            <div class="hidden md:grid grid-rows-2 gap-4 h-full">
+                {% if images|length > 1 %}
+                <div class="rounded-2xl overflow-hidden border border-[#C9A96E]/20 shadow-xl">
+                    <img src="{{ images[1] }}" alt="{{ room.name }}" class="w-full h-full object-cover">
+                </div>
+                {% endif %}
+                {% if images|length > 2 %}
+                <div class="rounded-2xl overflow-hidden border border-[#C9A96E]/20 shadow-xl">
+                    <img src="{{ images[2] }}" alt="{{ room.name }}" class="w-full h-full object-cover">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Room Details -->
+            <div class="w-full lg:w-2/3">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-1">Accommodation</span>
+                        <h1 class="font-playfair text-3xl sm:text-5xl text-white font-bold">{{ room.name }}</h1>
+                    </div>
+                    <div class="text-right shrink-0">
+                        <div class="font-playfair text-3xl font-bold text-[#C9A96E]">₹{{ '%.0f'|format(room.price_per_night) }}</div>
+                        <div class="text-xs text-[#FAF8F4]/60">per night</div>
+                    </div>
+                </div>
+                
+                <div class="flex gap-6 mb-8 text-sm text-[#FAF8F4]/80 border-b border-white/10 pb-6">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="users" class="w-4 h-4 text-[#C9A96E]"></i>
+                        <span>Up to {{ room.max_guests }} Guests</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="bed" class="w-4 h-4 text-[#C9A96E]"></i>
+                        <span>King Sized Bed</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-[#C9A96E]"></i>
+                        <span>Daily Housekeeping</span>
+                    </div>
+                </div>
+                
+                <div class="mb-10">
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-3">About This Room</h2>
+                    <p class="text-sm text-[#FAF8F4]/75 leading-relaxed">{{ room.description }}</p>
+                </div>
+                
+                <div class="mb-10">
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6">Room Amenities</h2>
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                        {% set amenities = room.amenities_list() %}
+                        {% for amenity in amenities %}
+                        <div class="flex items-center gap-2.5 text-xs text-white p-3 rounded-lg bg-[#121F33] border border-white/5">
+                            <i data-lucide="check-circle" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                            <span>{{ amenity }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Booking Card Sticky Sidebar -->
+            <div class="w-full lg:w-1/3">
+                <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 p-6 sm:p-8 sticky top-28 shadow-2xl">
+                    <div class="flex justify-between items-baseline mb-6 border-b border-white/10 pb-4">
+                        <span class="font-playfair text-2xl font-bold text-white">₹{{ '%.0f'|format(room.price_per_night) }}</span>
+                        <span class="text-xs text-[#FAF8F4]/60">per night</span>
+                    </div>
+                    
+                    <a href="{{ url_for('rooms_bp.book', slug=room.slug) }}" class="block w-full text-center bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] py-4 rounded-md font-semibold transition shadow-xl text-sm tracking-wide mb-4">
+                        Proceed to Reservation
+                    </a>
+
+                    <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20booking%20the%20{{ room.name }}." target="_blank" rel="noopener noreferrer" class="block w-full text-center bg-[#25D366] hover:bg-[#1ebd5a] text-white py-3.5 rounded-md font-semibold transition shadow text-xs tracking-wide mb-4 flex items-center justify-center gap-2">
+                        <i data-lucide="message-circle" class="w-4 h-4"></i> Enquire on WhatsApp
+                    </a>
+                    
+                    <div class="border-t border-white/10 pt-4 text-center">
+                        <a href="tel:9762278230" class="text-xs text-[#FAF8F4]/70 hover:text-[#C9A96E] transition flex items-center justify-center gap-1.5">
+                            <i data-lucide="phone" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Need help? Call: 9762278230
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

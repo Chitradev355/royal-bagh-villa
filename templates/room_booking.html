@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+{% block title %}Book {{ room.name }} | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block content %}
+<div class="bg-[#0B131F] min-h-screen pt-32 pb-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h1 class="font-playfair text-3xl sm:text-4xl text-white font-bold mb-8 text-center" data-aos="fade-down">Reserve {{ room.name }}</h1>
+        
+        <form action="{{ url_for('rooms_bp.book', slug=room.slug) }}" method="POST" class="flex flex-col lg:flex-row gap-8">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="price_per_night" id="price_per_night" value="{{ room.price_per_night }}">
+            
+            <div class="w-full lg:w-2/3" data-aos="fade-right">
+                <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/25 p-6 sm:p-8 shadow-xl">
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Stay Dates</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Check-in Date *</label>
+                            <input type="date" name="check_in" id="check_in" required min="{{ today }}" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none" onchange="calculateTotal()">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Check-out Date *</label>
+                            <input type="date" name="check_out" id="check_out" required min="{{ today }}" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none" onchange="calculateTotal()">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Guests Count *</label>
+                            <select name="guest_count" required class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                                {% for i in range(1, room.max_guests + 1) %}
+                                <option value="{{ i }}">{{ i }} Guest{% if i > 1 %}s{% endif %}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Guest Information</h2>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Full Name *</label>
+                            <input type="text" name="customer_name" required placeholder="Primary Guest Name" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Phone Number *</label>
+                            <input type="tel" name="phone" required placeholder="10-digit mobile" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Email Address</label>
+                            <input type="email" name="email" placeholder="you@example.com" class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none">
+                        </div>
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-medium text-[#C9A96E] uppercase tracking-wider mb-2">Special Requests</label>
+                            <textarea name="special_requests" rows="2" placeholder="Late arrival, extra pillows, floral setup..." class="w-full px-4 py-3 bg-[#0B131F] border border-[#C9A96E]/30 rounded-lg text-white text-sm focus:border-[#C9A96E] focus:outline-none"></textarea>
+                        </div>
+                    </div>
+                    
+                    <h2 class="font-playfair text-xl text-[#C9A96E] font-semibold mb-6 border-b border-[#C9A96E]/20 pb-3">Payment</h2>
+                    <div class="p-4 border border-[#C9A96E]/30 rounded-xl bg-[#0B131F]">
+                        <div class="font-medium text-white text-sm">Pay at Property</div>
+                        <div class="text-xs text-[#FAF8F4]/60">Settle your booking amount upon arrival via UPI, Card, or Cash.</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Summary Sidebar -->
+            <div class="w-full lg:w-1/3" data-aos="fade-left">
+                <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 p-6 sticky top-28 shadow-xl">
+                    <h3 class="font-playfair text-xl text-white font-bold mb-4">{{ room.name }}</h3>
+                    <div class="text-xs text-[#C9A96E] font-semibold mb-4 pb-4 border-b border-white/10">₹{{ '%.0f'|format(room.price_per_night) }} / night</div>
+                    
+                    <div class="space-y-3 font-inter text-xs mb-6">
+                        <div class="flex justify-between text-[#FAF8F4]/80">
+                            <span>Number of Nights</span>
+                            <span class="font-medium text-white" id="nights_count">1 night</span>
+                        </div>
+                        <div class="border-t border-white/10 pt-4 flex justify-between items-center">
+                            <span class="font-playfair text-base font-bold text-white">Total Estimate</span>
+                            <span class="font-playfair text-2xl font-bold text-[#C9A96E]" id="total_price">₹{{ '%.0f'|format(room.price_per_night) }}</span>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] py-4 rounded-md font-semibold transition shadow-xl text-sm tracking-wide mb-4">
+                        Confirm Reservation
+                    </button>
+                    
+                    <a href="{{ url_for('rooms_bp.index') }}" class="block text-center text-xs text-[#FAF8F4]/70 hover:text-[#C9A96E] transition">
+                        ← View Other Rooms
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    function calculateTotal() {
+        const checkIn = new Date(document.getElementById('check_in').value);
+        const checkOut = new Date(document.getElementById('check_out').value);
+        const price = parseFloat(document.getElementById('price_per_night').value) || 0;
+        
+        if (checkIn && checkOut && checkOut > checkIn) {
+            const diffTime = Math.abs(checkOut - checkIn);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            document.getElementById('nights_count').innerText = diffDays + (diffDays > 1 ? ' nights' : ' night');
+            document.getElementById('total_price').innerText = '₹' + (diffDays * price).toLocaleString();
+        }
+    }
+</script>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Menu Management | Royal Bagh Villa Admin{% endblock %}
+{% block page_title %}Menu Management{% endblock %}
+
+{% block admin_content %}
+<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+    <div class="border-b border-gray-100 flex">
+        <button class="px-6 py-4 text-brand-primary font-medium border-b-2 border-brand-primary bg-gray-50">Menu Items</button>
+        <button class="px-6 py-4 text-gray-500 font-medium hover:text-brand-primary transition-colors">Categories</button>
+    </div>
+    
+    <div class="p-6">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+            <div class="flex items-center gap-4">
+                <select class="border-gray-300 rounded-lg text-sm focus:ring-brand-gold focus:border-brand-gold">
+                    <option>All Categories</option>
+                    <option>Coffee</option>
+                    <option>Indian Main Course</option>
+                </select>
+            </div>
+            <button class="bg-brand-primary text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-secondary transition-colors flex items-center gap-2">
+                <i data-lucide="plus" class="w-4 h-4"></i> Add Item
+            </button>
+        </div>
+
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+                <thead class="bg-gray-50 text-gray-600 border-b">
+                    <tr>
+                        <th class="px-4 py-3 font-medium">Item</th>
+                        <th class="px-4 py-3 font-medium">Category</th>
+                        <th class="px-4 py-3 font-medium">Price</th>
+                        <th class="px-4 py-3 font-medium">Type</th>
+                        <th class="px-4 py-3 font-medium">Status</th>
+                        <th class="px-4 py-3 font-medium">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded bg-gray-200 shrink-0 bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100&q=80')"></div>
+                                <span class="font-medium text-gray-800">Cappuccino</span>
+                            </div>
+                        </td>
+                        <td class="px-4 py-3 text-gray-600">Coffee</td>
+                        <td class="px-4 py-3 font-medium">₹150</td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-green-100 text-green-800">Veg</span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800">Available</span>
+                        </td>
+                        <td class="px-4 py-3">
+                            <button class="text-gray-400 hover:text-brand-primary mr-2"><i data-lucide="edit" class="w-4 h-4"></i></button>
+                            <button class="text-gray-400 hover:text-red-600"><i data-lucide="trash-2" class="w-4 h-4"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

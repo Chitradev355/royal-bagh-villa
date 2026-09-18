@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block title %}Banquet Hall | Royal Bagh Villa Dehradun{% endblock %}
+
+{% block meta %}
+<meta name="description" content="Host weddings, receptions, birthday parties and corporate events at the Royal Banquet Hall, Royal Bagh Villa, Dehradun. Custom menus and event arrangements available.">
+{% endblock %}
+
+{% block content %}
+<!-- Hero -->
+<section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-[#0B131F] pt-20">
+    <div class="absolute inset-0 z-0">
+        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600&q=80" alt="Banquet Hall" class="w-full h-full object-cover">
+        <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/80 to-[#0B131F]/70"></div>
+    </div>
+    <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-16" data-aos="fade-up">
+        <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Indoor Grandeur</span>
+        <h1 class="font-playfair text-4xl sm:text-6xl text-[#FAF8F4] font-bold mb-4 leading-tight">
+            Elegant Spaces for <br>
+            <span class="text-[#C9A96E] italic font-normal">Every Occasion.</span>
+        </h1>
+        <p class="text-[#FAF8F4]/80 text-base sm:text-lg max-w-2xl mx-auto mb-8">
+            An air-conditioned haven of opulence, fine acoustics, and refined hospitality in Dehradun.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+            <a href="{{ url_for('banquet_bp.book') }}" class="px-8 py-3.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition shadow-xl">
+                Get Event Quote
+            </a>
+            <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="px-8 py-3.5 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition shadow-xl flex items-center gap-2">
+                <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp Us
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Overview -->
+<section class="py-20 bg-[#0B131F]">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mx-auto text-center mb-14" data-aos="fade-up">
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Elegance in Every Detail</span>
+            <h2 class="font-playfair text-3xl sm:text-4xl text-[#FAF8F4] font-bold mb-4">The Royal Banquet Experience</h2>
+            <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
+            <p class="text-[#FAF8F4]/75 text-base leading-relaxed mb-6">
+                Step into a world of architectural charm. Featuring ambient lighting, grand entry foyers, and customizable stage decor, our indoor hall provides a distinguished backdrop for your most cherished celebrations.
+            </p>
+            <div class="inline-block p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/30">
+                <p class="text-sm font-medium text-[#C9A96E] flex items-center justify-center gap-2">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>Custom menus and event arrangements available.</span>
+                </p>
+            </div>
+        </div>
+        
+        <!-- Image Highlights -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            <div class="relative h-64 rounded-xl overflow-hidden border border-[#C9A96E]/20 shadow-lg">
+                <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=700&q=80" alt="Banquet Setup" class="w-full h-full object-cover">
+            </div>
+            <div class="relative h-64 rounded-xl overflow-hidden border border-[#C9A96E]/20 shadow-lg">
+                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=700&q=80" alt="Corporate & Private Banquet" class="w-full h-full object-cover">
+            </div>
+            <div class="relative h-64 rounded-xl overflow-hidden border border-[#C9A96E]/20 shadow-lg">
+                <img src="https://images.unsplash.com/photo-1530103862676-de8892466986?w=700&q=80" alt="Party Setup" class="w-full h-full object-cover">
+            </div>
+        </div>
+
+        <!-- Events List -->
+        <div class="mb-16">
+            <h3 class="font-playfair text-2xl sm:text-3xl text-white font-bold text-center mb-10">Events We Host</h3>
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
+                <div class="p-6 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 text-center">
+                    <i data-lucide="heart" class="w-8 h-8 text-[#C9A96E] mx-auto mb-3"></i>
+                    <h4 class="font-playfair text-lg text-white font-semibold mb-1">Weddings</h4>
+                    <p class="text-xs text-[#FAF8F4]/70">Exquisite mandap & royal seating.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 text-center">
+                    <i data-lucide="glass-water" class="w-8 h-8 text-[#C9A96E] mx-auto mb-3"></i>
+                    <h4 class="font-playfair text-lg text-white font-semibold mb-1">Receptions</h4>
+                    <p class="text-xs text-[#FAF8F4]/70">Opulent stage and buffet arrangements.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 text-center">
+                    <i data-lucide="cake" class="w-8 h-8 text-[#C9A96E] mx-auto mb-3"></i>
+                    <h4 class="font-playfair text-lg text-white font-semibold mb-1">Birthday Parties</h4>
+                    <p class="text-xs text-[#FAF8F4]/70">Thematic decor and celebration feasts.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 text-center">
+                    <i data-lucide="briefcase" class="w-8 h-8 text-[#C9A96E] mx-auto mb-3"></i>
+                    <h4 class="font-playfair text-lg text-white font-semibold mb-1">Corporate Events</h4>
+                    <p class="text-xs text-[#FAF8F4]/70">Seminars, annual galas, and presentations.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 text-center">
+                    <i data-lucide="users" class="w-8 h-8 text-[#C9A96E] mx-auto mb-3"></i>
+                    <h4 class="font-playfair text-lg text-white font-semibold mb-1">Family Functions</h4>
+                    <p class="text-xs text-[#FAF8F4]/70">Engagements, anniversary and festive dinners.</p>
+                </div>
+                <div class="p-6 rounded-xl bg-[#121F33] border border-[#C9A96E]/20 text-center">
+                    <i data-lucide="music" class="w-8 h-8 text-[#C9A96E] mx-auto mb-3"></i>
+                    <h4 class="font-playfair text-lg text-white font-semibold mb-1">Private Celebrations</h4>
+                    <p class="text-xs text-[#FAF8F4]/70">Exclusive privacy with dedicated staff.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Banquet Booking CTA Box -->
+        <div class="bg-[#121F33] rounded-2xl border border-[#C9A96E]/30 p-8 sm:p-12 text-center">
+            <h3 class="font-playfair text-2xl sm:text-3xl text-white font-bold mb-3">Let's Craft Your Celebration</h3>
+            <p class="text-sm text-[#FAF8F4]/75 max-w-xl mx-auto mb-6">Receive a custom menu package and schedule an on-site property walkthrough today.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="{{ url_for('banquet_bp.book') }}" class="px-8 py-3.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition shadow-md">
+                    Get Event Quote
+                </a>
+                <a href="tel:9762278230" class="px-8 py-3.5 bg-[#141E2E] border border-[#C9A96E]/40 text-[#FAF8F4] font-semibold rounded-md hover:bg-[#C9A96E]/20 transition flex items-center gap-2">
+                    <i data-lucide="phone" class="w-4 h-4 text-[#C9A96E]"></i> Call: 9762278230
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

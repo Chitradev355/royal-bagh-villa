@@ -1,0 +1,75 @@
+{% macro render_status_tracker(status_flow, current_status) %}
+<div class="w-full py-6">
+    <!-- Desktop Horizontal View -->
+    <div class="hidden md:block relative">
+        <div class="flex justify-between items-center relative z-10">
+            {% set current_index = namespace(value=-1) %}
+            
+            {% for status in status_flow %}
+                {% if (status.id is defined and status.id == current_status) or loop.index0 == current_status %}
+                    {% set current_index.value = loop.index0 %}
+                {% endif %}
+            {% endfor %}
+
+            {% if current_index.value == -1 %}
+                 {% set current_index.value = 0 %} 
+            {% endif %}
+
+            <!-- Background Line -->
+            <div class="absolute top-5 left-0 w-full h-1 bg-white/10 -z-10"></div>
+            
+            {% if current_index.value > 0 %}
+                {% set width_percent = (current_index.value / (status_flow|length - 1)) * 100 %}
+                <div class="absolute top-5 left-0 h-1 bg-[#C9A96E] -z-10 transition-all duration-500" style="width: {{ width_percent }}%;"></div>
+            {% endif %}
+
+            {% for status in status_flow %}
+                {% set label = status.label if status.label is defined else status %}
+                <div class="flex flex-col items-center w-24">
+                    {% if loop.index0 < current_index.value %}
+                        <div class="w-10 h-10 rounded-full bg-[#C9A96E] text-[#0B131F] flex items-center justify-center shadow-md mb-2">
+                            <i data-lucide="check" class="w-5 h-5"></i>
+                        </div>
+                        <span class="text-[11px] font-semibold text-[#C9A96E] uppercase tracking-wider text-center">{{ label }}</span>
+                    {% elif loop.index0 == current_index.value %}
+                        <div class="w-10 h-10 rounded-full bg-[#C9A96E] text-[#0B131F] font-bold flex items-center justify-center shadow-xl mb-2 ring-4 ring-[#C9A96E]/30 animate-pulse">
+                            <span>{{ loop.index }}</span>
+                        </div>
+                        <span class="text-[11px] font-bold text-white uppercase tracking-wider text-center">{{ label }}</span>
+                    {% else %}
+                        <div class="w-10 h-10 rounded-full bg-[#121F33] border border-white/20 text-white/40 flex items-center justify-center mb-2">
+                            <span class="font-medium text-xs">{{ loop.index }}</span>
+                        </div>
+                        <span class="text-[11px] font-medium text-white/40 uppercase tracking-wider text-center">{{ label }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Mobile Vertical View -->
+    <div class="block md:hidden space-y-4">
+        {% for status in status_flow %}
+            {% set label = status.label if status.label is defined else status %}
+            <div class="flex items-center gap-3">
+                {% if loop.index0 <= current_status %}
+                    <div class="w-7 h-7 rounded-full bg-[#C9A96E] text-[#0B131F] flex items-center justify-center text-xs font-bold">
+                        ✓
+                    </div>
+                    <span class="text-sm font-semibold text-[#C9A96E]">{{ label }}</span>
+                {% else %}
+                    <div class="w-7 h-7 rounded-full bg-[#121F33] border border-white/20 text-white/40 flex items-center justify-center text-xs">
+                        {{ loop.index }}
+                    </div>
+                    <span class="text-sm text-white/40">{{ label }}</span>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endmacro %}
+
+{# Alias macro for compatibility #}
+{% macro status_tracker(status_flow, current_status) %}
+    {{ render_status_tracker(status_flow, current_status) }}
+{% endmacro %}
