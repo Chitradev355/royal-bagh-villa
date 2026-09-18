@@ -1,7 +1,19 @@
 import json
-from models import db, CMSContent, CMSEvent, GalleryItem, NavigationItem
+import os
+from models import db, Admin, CMSContent, CMSEvent, GalleryItem, NavigationItem
 
 def seed_cms_defaults():
+    # 0. Ensure Superadmin account exists
+    if Admin.query.first() is None:
+        admin_user = Admin(
+            username=os.environ.get('ADMIN_USERNAME', 'admin'),
+            name='Royal Bagh Villa Admin',
+            role='superadmin'
+        )
+        admin_user.set_password(os.environ.get('ADMIN_PASSWORD', 'admin123'))
+        db.session.add(admin_user)
+        db.session.commit()
+
     # 1. Navigation items
     if NavigationItem.query.count() == 0:
         nav_items = [
