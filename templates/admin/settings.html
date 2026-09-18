@@ -1,37 +1,219 @@
 {% extends "admin/base_admin.html" %}
 
-{% block title %}Settings | Royal Bagh Villa Admin{% endblock %}
-{% block page_title %}Business Settings{% endblock %}
+{% block title %}Website Settings & Backup | Royal Bagh Villa Admin{% endblock %}
 
-{% block admin_content %}
-<div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden max-w-4xl">
-    <div class="p-6">
-        <form action="{{ url_for('admin_bp.settings_view') }}" method="POST" class="space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Business Name</label>
-                    <input type="text" name="business_name" value="Royal Bagh Villa" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold outline-none transition-colors">
+{% block content %}
+<div class="space-y-8 max-w-5xl mx-auto pb-12">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
+        <div>
+            <h1 class="font-serif text-2xl sm:text-3xl text-gray-900 font-bold">Website Settings & Backup</h1>
+            <p class="text-sm text-gray-500 mt-1">Configure global business information, SEO meta tags, branding, analytics, and backup data.</p>
+        </div>
+        <button type="submit" form="settings-form" class="inline-flex items-center px-6 py-2.5 bg-brand-primary hover:bg-brand-secondary text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+            <i data-lucide="save" class="w-4 h-4 mr-2"></i> Save All Settings
+        </button>
+    </div>
+
+    <!-- MAIN SETTINGS FORM -->
+    <form id="settings-form" action="{{ url_for('admin_bp.settings_view') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <!-- 1. BRANDING & IDENTITY -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
+                <i data-lucide="award" class="w-5 h-5 text-brand-gold"></i>
+                <h2 class="font-serif text-lg font-bold text-gray-800">Branding & Identity</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Business / Brand Name</label>
+                        <input type="text" name="business_name" value="{{ settings.get('business_name', 'Royal Bagh Villa') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Brand Tagline</label>
+                        <input type="text" name="business_tagline" value="{{ settings.get('business_tagline', 'Where Every Celebration Becomes a Memory') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Primary Phone</label>
-                    <input type="text" name="phone_primary" value="+91 9876543210" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold outline-none transition-colors">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                    <input type="email" name="email_address" value="info@royalbaghvilla.com" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold outline-none transition-colors">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Address</label>
-                    <textarea name="address_text" rows="2" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-brand-gold focus:border-brand-gold outline-none transition-colors">123 Heritage Lane, City</textarea>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t border-gray-100">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Logo Text Display</label>
+                        <input type="text" name="logo_text" value="{{ settings.get('logo_text', 'Royal Bagh Villa') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Logo Image (Optional)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="logo_image_input" name="logo_image" value="{{ settings.get('logo_image', '') }}" placeholder="URL or upload" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                            <button type="button" onclick="openMediaPicker('logo_image_input')" class="px-2.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium">
+                                <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <input type="file" name="logo_image_file" accept="image/*" class="mt-2 text-xs text-gray-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Favicon Icon (Optional)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="favicon_input" name="favicon" value="{{ settings.get('favicon', '') }}" placeholder="URL or upload" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                            <button type="button" onclick="openMediaPicker('favicon_input')" class="px-2.5 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium">
+                                <i data-lucide="image" class="w-3.5 h-3.5"></i>
+                            </button>
+                        </div>
+                        <input type="file" name="favicon_file" accept="image/*" class="mt-2 text-xs text-gray-500">
+                    </div>
                 </div>
             </div>
-            
-            <div class="pt-4 border-t border-gray-100 flex justify-end">
-                <button type="submit" class="bg-brand-primary text-white px-6 py-2.5 rounded-lg font-medium hover:bg-brand-secondary transition-colors">
-                    Save Changes
-                </button>
+        </div>
+
+        <!-- 2. CONTACT & SOCIAL -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
+                <i data-lucide="phone-call" class="w-5 h-5 text-brand-gold"></i>
+                <h2 class="font-serif text-lg font-bold text-gray-800">Contact & Communications</h2>
             </div>
-        </form>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Primary Phone Number</label>
+                        <input type="text" name="business_phone" value="{{ settings.get('business_phone', '9762278230') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">WhatsApp Number (e.g. 919762278230)</label>
+                        <input type="text" name="business_whatsapp" value="{{ settings.get('business_whatsapp', '919762278230') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Email Address</label>
+                        <input type="email" name="business_email" value="{{ settings.get('business_email', 'info@royalbaghvilla.com') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Physical Address</label>
+                        <input type="text" name="business_address" value="{{ settings.get('business_address', 'Royal Bagh Villa, Dehradun, Uttarakhand') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Google Maps Direction Link</label>
+                        <input type="text" name="business_map_url" value="{{ settings.get('business_map_url', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-gray-100">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Restaurant Hours</label>
+                        <input type="text" name="restaurant_hours" value="{{ settings.get('restaurant_hours', '11:00 AM ? 11:00 PM') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Cafe Hours</label>
+                        <input type="text" name="cafe_hours" value="{{ settings.get('cafe_hours', '8:00 AM ? 10:00 PM') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Instagram URL</label>
+                        <input type="text" name="instagram_url" value="{{ settings.get('instagram_url', 'https://instagram.com/royalbaghvilla') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Facebook URL</label>
+                        <input type="text" name="facebook_url" value="{{ settings.get('facebook_url', 'https://facebook.com/royalbaghvilla') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. SEO & FOOTER -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center gap-2">
+                <i data-lucide="globe" class="w-5 h-5 text-brand-gold"></i>
+                <h2 class="font-serif text-lg font-bold text-gray-800">SEO & Footer Information</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Global SEO Site Title</label>
+                    <input type="text" name="site_title" value="{{ settings.get('site_title', 'Royal Bagh Villa Dehradun | Cafe, Restaurant, Lawn & Events') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Global SEO Meta Description</label>
+                    <textarea name="site_description" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ settings.get('site_description', '') }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Footer Tagline</label>
+                        <input type="text" name="footer_tagline" value="{{ settings.get('footer_tagline', 'Where Every Celebration Becomes a Memory') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Google Analytics / Tag ID</label>
+                        <input type="text" name="google_analytics_id" value="{{ settings.get('google_analytics_id', '') }}" placeholder="G-XXXXXXXXXX" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 font-mono">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Footer About Text</label>
+                    <textarea name="footer_about" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ settings.get('footer_about', '') }}</textarea>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Custom CSS (Optional)</label>
+                        <textarea name="custom_css" rows="3" placeholder="/* Custom styling */" class="w-full text-xs font-mono rounded-lg border border-gray-300 p-2.5">{{ settings.get('custom_css', '') }}</textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Custom Head Scripts (Optional)</label>
+                        <textarea name="custom_js" rows="3" placeholder="<!-- Tracking or verification scripts -->" class="w-full text-xs font-mono rounded-lg border border-gray-300 p-2.5">{{ settings.get('custom_js', '') }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex items-center justify-end">
+            <button type="submit" class="px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white font-semibold rounded-lg shadow-md transition-colors flex items-center gap-2">
+                <i data-lucide="check" class="w-5 h-5"></i>
+                Save All Settings
+            </button>
+        </div>
+    </form>
+
+    <!-- 4. BACKUP & RESTORE SECTION -->
+    <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mt-10">
+        <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i data-lucide="database" class="w-5 h-5 text-brand-gold"></i>
+                <h2 class="font-serif text-lg font-bold text-gray-800">Database & Content Backup / Migration</h2>
+            </div>
+            <span class="text-xs font-medium text-green-700 bg-green-100 px-2.5 py-1 rounded-full">Safe Deployment Guard</span>
+        </div>
+
+        <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Export Backup -->
+            <div class="space-y-3">
+                <h3 class="font-serif font-bold text-base text-gray-800">Download CMS Snapshot (JSON)</h3>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    Export all CMS pages, events, gallery items, navigation links, menu items, and business settings into a single portable backup file. Keep this backup safe before major updates.
+                </p>
+                <a href="{{ url_for('admin_bp.export_backup') }}" class="inline-flex items-center px-4 py-2.5 bg-gray-900 hover:bg-black text-white text-xs font-semibold rounded-lg shadow transition-colors">
+                    <i data-lucide="download" class="w-4 h-4 mr-2"></i>
+                    Download JSON Backup
+                </a>
+            </div>
+
+            <!-- Import Backup -->
+            <div class="space-y-3 pt-6 md:pt-0 border-t md:border-t-0 md:border-l border-gray-200 md:pl-8">
+                <h3 class="font-serif font-bold text-base text-gray-800">Restore CMS from JSON Backup</h3>
+                <p class="text-xs text-gray-500 leading-relaxed">
+                    Restore previously exported CMS data on any new deployment or instance without modifying code.
+                </p>
+                <form action="{{ url_for('admin_bp.import_backup') }}" method="POST" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-start sm:items-center gap-3" onsubmit="return confirm('Restore data from this file? Existing matching settings will be updated.');">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="file" name="backup_file" accept=".json" required class="text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                    <button type="submit" class="px-4 py-2 bg-brand-gold hover:bg-[#b8944f] text-brand-dark font-semibold text-xs rounded-lg shadow transition-colors shrink-0">
+                        Upload & Restore
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
+
+{% include "admin/components/media_picker_modal.html" %}
 {% endblock %}

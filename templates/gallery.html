@@ -9,17 +9,17 @@
 {% block content %}
 <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-[#0B131F] pt-20">
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600&q=80" alt="Royal Bagh Villa Gallery" class="w-full h-full object-cover">
+        <img src="{{ get_cms('gallery', 'hero_image', 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600&q=80') }}" alt="Royal Bagh Villa Gallery" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/80 to-[#0B131F]/70"></div>
     </div>
     
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-16" data-aos="fade-up">
         <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Visual Showcase</span>
         <h1 class="font-playfair text-4xl sm:text-6xl text-[#FAF8F4] font-bold mb-4 leading-tight">
-            Moments at <span class="text-[#C9A96E] italic font-normal">Royal Bagh</span>
+            {{ get_cms('gallery', 'hero_title', 'Moments at <span class="text-[#C9A96E] italic font-normal">Royal Bagh</span>') | safe }}
         </h1>
         <p class="text-[#FAF8F4]/80 text-base sm:text-lg max-w-2xl mx-auto">
-            Experience the architectural grandeur, lush green grounds, culinary perfection, and festive celebrations.
+            {{ get_cms('gallery', 'hero_subtitle', 'Experience the architectural grandeur, lush green grounds, culinary perfection, and festive celebrations.') }}
         </p>
     </div>
 </section>
@@ -39,7 +39,24 @@
         </div>
 
         <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- 1. Property Lawn -->
+            {% set gallery_items = get_gallery() %}
+            {% if gallery_items %}
+                {% for item in gallery_items %}
+                <div class="gallery-item {{ item.category }} relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="{{ item.category }}">
+                    <img src="{{ item.image_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
+                        <div>
+                            <span class="text-xs text-[#C9A96E] uppercase tracking-wider">{{ item.category|capitalize }}</span>
+                            <h4 class="font-playfair text-lg text-white font-semibold">{{ item.title }}</h4>
+                            {% if item.caption %}
+                            <p class="text-xs text-[#FAF8F4]/75 mt-1">{{ item.caption }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <!-- Fallback Static Items -->
             <div class="gallery-item property lawn relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="property lawn">
                 <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=80" alt="Royal Bagh Villa Lawn" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
@@ -49,8 +66,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 2. Cafe -->
             <div class="gallery-item cafe relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="cafe">
                 <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&q=80" alt="Cafe Ambiance" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
@@ -60,8 +75,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 3. Restaurant Food -->
             <div class="gallery-item restaurant food relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="restaurant food">
                 <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=900&q=80" alt="Gourmet Platter" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
                 <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
@@ -71,72 +84,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 4. Banquet Events -->
-            <div class="gallery-item events relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="events">
-                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=900&q=80" alt="Banquet Hall Setup" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <div>
-                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Events</span>
-                        <h4 class="font-playfair text-lg text-white font-semibold">Elegant Banquet Gathering</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 5. Lawn Reception -->
-            <div class="gallery-item lawn events relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="lawn events">
-                <img src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=900&q=80" alt="Lawn Reception" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <div>
-                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Lawn & Events</span>
-                        <h4 class="font-playfair text-lg text-white font-semibold">Open-Sky Wedding Setup</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. Beverages Food -->
-            <div class="gallery-item food cafe relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="food cafe">
-                <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=900&q=80" alt="Artisanal Brew" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <div>
-                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Food & Beverages</span>
-                        <h4 class="font-playfair text-lg text-white font-semibold">Handcrafted Brews</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 7. Dining Interior -->
-            <div class="gallery-item restaurant property relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="restaurant property">
-                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80" alt="Restaurant Interior" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <div>
-                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Restaurant</span>
-                        <h4 class="font-playfair text-lg text-white font-semibold">Fine Dining Atmosphere</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 8. Night Celebration -->
-            <div class="gallery-item events lawn relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="events lawn">
-                <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=900&q=80" alt="Evening Celebrations" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <div>
-                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Events</span>
-                        <h4 class="font-playfair text-lg text-white font-semibold">Night Celebrations</h4>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 9. Villa Architecture -->
-            <div class="gallery-item property relative h-80 rounded-xl overflow-hidden border border-[#C9A96E]/20 group shadow-lg" data-category="property">
-                <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=900&q=80" alt="Villa Architecture" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
-                <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F]/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-6">
-                    <div>
-                        <span class="text-xs text-[#C9A96E] uppercase tracking-wider">Property</span>
-                        <h4 class="font-playfair text-lg text-white font-semibold">Regal Architecture</h4>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
         
         <!-- CTA -->

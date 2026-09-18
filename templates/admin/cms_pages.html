@@ -1,0 +1,211 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Pages CMS | Royal Bagh Villa Admin{% endblock %}
+
+{% block content %}
+<div class="space-y-6 max-w-5xl mx-auto pb-12">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
+        <div>
+            <h1 class="font-serif text-2xl sm:text-3xl text-gray-900 font-bold">Inner Pages CMS</h1>
+            <p class="text-sm text-gray-500 mt-1">Manage content, headlines, hero banners, and text for all individual destination pages.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="/{{ active_page if active_page != 'home' else '' }}" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> View Page
+            </a>
+            <button type="submit" form="page-cms-form" class="inline-flex items-center px-5 py-2 bg-brand-primary hover:bg-brand-secondary text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+                <i data-lucide="save" class="w-4 h-4 mr-2"></i> Save Page
+            </button>
+        </div>
+    </div>
+
+    <!-- Page Navigation Tabs -->
+    <div class="flex items-center gap-2 overflow-x-auto pb-2 border-b border-gray-200">
+        {% for page_slug in supported_pages %}
+        <a href="{{ url_for('admin_bp.cms_pages', page=page_slug) }}" class="px-4 py-2 rounded-lg text-sm font-medium whitespace-nowrap capitalize transition-all {% if active_page == page_slug %}bg-brand-primary text-brand-gold shadow-sm font-semibold{% else %}bg-white text-gray-600 hover:bg-gray-100 border border-gray-200{% endif %}">
+            {{ page_slug }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <form id="page-cms-form" action="{{ url_for('admin_bp.cms_pages') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="target_page" value="{{ active_page }}">
+
+        <!-- 1. HERO HEADER SECTION -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h2 class="font-serif text-lg font-bold text-gray-800 capitalize">{{ active_page }} Page ? Hero Header</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Main Title (HTML supported)</label>
+                    <input type="text" name="field_hero_title" value="{{ contents.get('hero_title', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 font-mono">
+                    <input type="hidden" name="section_hero_title" value="hero">
+                    <input type="hidden" name="type_hero_title" value="html">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Subtitle / Tagline</label>
+                    <textarea name="field_hero_subtitle" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('hero_subtitle', '') }}</textarea>
+                    <input type="hidden" name="section_hero_subtitle" value="hero">
+                    <input type="hidden" name="type_hero_subtitle" value="text">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Background Image URL</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="page_hero_image_input" name="field_hero_image" value="{{ contents.get('hero_image', '') }}" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                        <button type="button" onclick="openMediaPicker('page_hero_image_input')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1 shrink-0">
+                            <i data-lucide="image" class="w-3.5 h-3.5"></i> Library
+                        </button>
+                    </div>
+                    <input type="hidden" name="section_hero_image" value="hero">
+                    <input type="hidden" name="type_hero_image" value="image">
+                    <div class="mt-2">
+                        <span class="text-xs text-gray-500 block mb-1">Or upload new image:</span>
+                        <input type="file" name="hero_image_file" accept="image/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. PAGE SPECIFIC SECTIONS -->
+        {% if active_page == 'about' %}
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Our Story & Legacy</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Story Heading</label>
+                    <input type="text" name="field_story_title" value="{{ contents.get('story_title', 'Where Every Celebration Becomes a Memory.') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    <input type="hidden" name="section_story_title" value="story">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Story Paragraph 1</label>
+                    <textarea name="field_story_text_1" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('story_text_1', '') }}</textarea>
+                    <input type="hidden" name="section_story_text_1" value="story">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Story Paragraph 2</label>
+                    <textarea name="field_story_text_2" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('story_text_2', '') }}</textarea>
+                    <input type="hidden" name="section_story_text_2" value="story">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Story Image URL</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="story_image_input" name="field_story_image" value="{{ contents.get('story_image', '') }}" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                        <button type="button" onclick="openMediaPicker('story_image_input')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1">
+                            <i data-lucide="image" class="w-3.5 h-3.5"></i> Library
+                        </button>
+                    </div>
+                    <input type="hidden" name="section_story_image" value="story">
+                    <input type="hidden" name="type_story_image" value="image">
+                    <div class="mt-2">
+                        <input type="file" name="story_image_file" accept="image/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% elif active_page in ['cafe', 'restaurant'] %}
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Dining Details & Timings</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Operating Hours</label>
+                    <input type="text" name="field_hours" value="{{ contents.get('hours', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5" placeholder="e.g. 11:00 AM ? 11:00 PM">
+                    <input type="hidden" name="section_hours" value="content">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Atmosphere & Cuisine Description</label>
+                    <textarea name="field_description" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('description', '') }}</textarea>
+                    <input type="hidden" name="section_description" value="content">
+                </div>
+            </div>
+        </div>
+
+        {% elif active_page in ['banquet', 'lawn'] %}
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Venue Specifications</h2>
+                <a href="{{ url_for('admin_bp.cms_venues', venue=active_page) }}" class="text-xs text-brand-gold hover:underline flex items-center gap-1 font-medium">
+                    Open Advanced Venue Editor <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+                </a>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Guest Capacity</label>
+                        <input type="text" name="field_capacity" value="{{ contents.get('capacity', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <input type="hidden" name="section_capacity" value="details">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Starting Pricing</label>
+                        <input type="text" name="field_pricing" value="{{ contents.get('pricing', '?1,250 per plate') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <input type="hidden" name="section_pricing" value="details">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Pricing Note</label>
+                    <input type="text" name="field_pricing_note" value="{{ contents.get('pricing_note', 'Price depends on selected menu & package') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    <input type="hidden" name="section_pricing_note" value="details">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Features (Comma separated)</label>
+                    <textarea name="field_features" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('features', '') }}</textarea>
+                    <input type="hidden" name="section_features" value="details">
+                </div>
+            </div>
+        </div>
+
+        {% elif active_page == 'contact' %}
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Contact Page Details</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Primary Phone</label>
+                        <input type="text" name="field_phone" value="{{ contents.get('phone', '9762278230') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <input type="hidden" name="section_phone" value="details">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">WhatsApp Number</label>
+                        <input type="text" name="field_whatsapp" value="{{ contents.get('whatsapp', '919762278230') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <input type="hidden" name="section_whatsapp" value="details">
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Email Address</label>
+                        <input type="email" name="field_email" value="{{ contents.get('email', 'info@royalbaghvilla.com') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <input type="hidden" name="section_email" value="details">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Address</label>
+                        <input type="text" name="field_address" value="{{ contents.get('address', 'Royal Bagh Villa, Dehradun, Uttarakhand') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <input type="hidden" name="section_address" value="details">
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Save Button Footer -->
+        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+            <button type="submit" class="px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white font-semibold rounded-lg shadow-md transition-colors flex items-center gap-2">
+                <i data-lucide="check" class="w-5 h-5"></i>
+                Save All {{ active_page|title }} Changes
+            </button>
+        </div>
+    </form>
+</div>
+
+{% include "admin/components/media_picker_modal.html" %}
+{% endblock %}

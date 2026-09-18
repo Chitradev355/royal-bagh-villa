@@ -1,0 +1,180 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Homepage CMS | Royal Bagh Villa Admin{% endblock %}
+
+{% block content %}
+<div class="space-y-6 max-w-5xl mx-auto pb-12">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
+        <div>
+            <h1 class="font-serif text-2xl sm:text-3xl text-gray-900 font-bold">Homepage Content Management</h1>
+            <p class="text-sm text-gray-500 mt-1">Manage the cinematic hero section, headlines, videos, call-to-actions, and welcome experience.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="/" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> Live Preview
+            </a>
+            <button type="submit" form="home-cms-form" class="inline-flex items-center px-5 py-2 bg-brand-primary hover:bg-brand-secondary text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+                <i data-lucide="save" class="w-4 h-4 mr-2"></i> Save Changes
+            </button>
+        </div>
+    </div>
+
+    <form id="home-cms-form" action="{{ url_for('admin_bp.cms_home') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <!-- 1. HERO SECTION -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold text-xs">1</span>
+                    <h2 class="font-serif text-lg font-bold text-gray-800">Hero Section (Main Screen)</h2>
+                </div>
+                <span class="text-xs font-medium text-brand-gold uppercase tracking-wider bg-brand-gold/10 px-2.5 py-1 rounded">Primary Viewport</span>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <!-- Badge & Subtitle -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Small Badge</label>
+                        <input type="text" name="hero_badge" value="{{ contents.get('hero_badge', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold" placeholder="e.g. Dehradun's Premier Destination">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Category Line</label>
+                        <input type="text" name="hero_subtitle" value="{{ contents.get('hero_subtitle', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold" placeholder="e.g. Cafe ? Restaurant ? Events ? Celebrations">
+                    </div>
+                </div>
+
+                <!-- Main Title -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">
+                        Hero Main Title (HTML supported for styling & italics)
+                    </label>
+                    <textarea name="hero_title" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 font-mono focus:border-brand-gold focus:ring-brand-gold">{{ contents.get('hero_title', '') }}</textarea>
+                    <p class="text-xs text-gray-400 mt-1">Tip: Use &lt;span class="text-[#C9A96E] italic"&gt;Text&lt;/span&gt; for golden italic highlights.</p>
+                </div>
+
+                <!-- Tagline Description -->
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Tagline / Paragraph</label>
+                    <textarea name="hero_tagline" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">{{ contents.get('hero_tagline', '') }}</textarea>
+                </div>
+
+                <!-- Media (Image & Video) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Background Image URL</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="hero_image_input" name="hero_image" value="{{ contents.get('hero_image', '') }}" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+                            <button type="button" onclick="openMediaPicker('hero_image_input')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1 shrink-0">
+                                <i data-lucide="image" class="w-3.5 h-3.5"></i> Library
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-xs text-gray-500 block mb-1">Or upload new image from computer:</span>
+                            <input type="file" name="hero_image_file" accept="image/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Hero Background Video URL (Optional)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="hero_video_input" name="hero_video_url" value="{{ contents.get('hero_video_url', '') }}" placeholder="/static/uploads/media/video.mp4 or MP4 URL" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+                            <button type="button" onclick="openMediaPicker('hero_video_input', 'video')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1 shrink-0">
+                                <i data-lucide="video" class="w-3.5 h-3.5"></i> Library
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <span class="text-xs text-gray-500 block mb-1">Or upload MP4/WebM video:</span>
+                            <input type="file" name="hero_video_file" accept="video/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CTA Buttons -->
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-gray-100">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Primary CTA Button Label</label>
+                        <input type="text" name="cta_primary_text" value="{{ contents.get('hero_cta_primary_text', 'Check Availability') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Primary CTA Button Target Link</label>
+                        <input type="text" name="cta_primary_link" value="{{ contents.get('hero_cta_primary_link', '#enquiry') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">WhatsApp Button Text</label>
+                        <input type="text" name="cta_whatsapp_text" value="{{ contents.get('hero_cta_whatsapp_text', 'WhatsApp Us') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. WELCOME / INTRODUCTION SECTION -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold text-xs">2</span>
+                    <h2 class="font-serif text-lg font-bold text-gray-800">Welcome & Introduction Section</h2>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Section Small Badge</label>
+                    <input type="text" name="intro_badge" value="{{ contents.get('intro_badge', 'Welcome Experience') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Section Heading (HTML supported)</label>
+                    <input type="text" name="intro_title" value="{{ contents.get('intro_title', '') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 font-mono">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Section Body Description</label>
+                    <textarea name="intro_text" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('intro_text', '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. OFFERS & PRIVILEGES BANNER -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="w-7 h-7 rounded-lg bg-brand-gold/20 text-brand-gold flex items-center justify-center font-bold text-xs">3</span>
+                    <h2 class="font-serif text-lg font-bold text-gray-800">Offers & Announcements Banner</h2>
+                </div>
+            </div>
+
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Offer Tagline Badge</label>
+                        <input type="text" name="offers_badge" value="{{ contents.get('offers_badge', 'Special Privileges') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Offer Main Heading</label>
+                        <input type="text" name="offers_title" value="{{ contents.get('offers_title', 'Bespoke Celebration Packages') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Offer Details & Inclusions</label>
+                    <textarea name="offers_text" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">{{ contents.get('offers_text', '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Save Button Footer -->
+        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+            <button type="submit" class="px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white font-semibold rounded-lg shadow-md transition-colors flex items-center gap-2">
+                <i data-lucide="check" class="w-5 h-5"></i>
+                Save All Homepage Changes
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- MEDIA PICKER MODAL COMPONENT -->
+{% include "admin/components/media_picker_modal.html" %}
+{% endblock %}

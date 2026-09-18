@@ -6,14 +6,18 @@
             <!-- Column 1: Brand -->
             <div class="space-y-4">
                 <a href="{{ url_for('main_bp.index') }}" class="inline-block">
-                    <span class="font-playfair font-bold text-3xl text-[#FAF8F4] block leading-tight">Royal Bagh <span class="text-[#C9A96E]">Villa</span></span>
+                    {% if logo_image %}
+                    <img src="{{ logo_image }}" alt="{{ logo_text }}" class="h-10 w-auto object-contain mb-2">
+                    {% else %}
+                    <span class="font-playfair font-bold text-3xl text-[#FAF8F4] block leading-tight">{{ logo_text }}</span>
                     <span class="text-xs tracking-[0.25em] text-[#C9A96E]/80 uppercase font-inter block mt-1">Dehradun</span>
+                    {% endif %}
                 </a>
                 <p class="text-[#C9A96E] font-medium text-sm tracking-wide">
                     Cafe • Restaurant • Events • Celebrations
                 </p>
                 <p class="text-xs text-[#FAF8F4]/70 leading-relaxed">
-                    A premier destination in Dehradun bringing together fine dining, artisanal cafe moments, grand lawn celebrations, and unforgettable events.
+                    {{ footer_about }}
                 </p>
             </div>
 
@@ -23,13 +27,20 @@
                     <span class="w-4 h-px bg-[#C9A96E]"></span> Quick Links
                 </h3>
                 <ul class="space-y-2.5 text-sm">
-                    <li><a href="{{ url_for('main_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Home</a></li>
-                    <li><a href="{{ url_for('cafe_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Cafe</a></li>
-                    <li><a href="{{ url_for('restaurant_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Restaurant</a></li>
-                    <li><a href="{{ url_for('main_bp.events') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Events</a></li>
-                    <li><a href="{{ url_for('lawn_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Lawn</a></li>
-                    <li><a href="{{ url_for('main_bp.gallery') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Gallery</a></li>
-                    <li><a href="{{ url_for('main_bp.contact') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Contact</a></li>
+                    {% set footer_links = get_nav_items('footer') %}
+                    {% if footer_links %}
+                        {% for item in footer_links %}
+                        <li><a href="{{ item.url }}" {% if item.is_external %}target="_blank" rel="noopener noreferrer"{% endif %} class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> {{ item.title }}</a></li>
+                        {% endfor %}
+                    {% else %}
+                        <li><a href="{{ url_for('main_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Home</a></li>
+                        <li><a href="{{ url_for('cafe_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Cafe</a></li>
+                        <li><a href="{{ url_for('restaurant_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Restaurant</a></li>
+                        <li><a href="{{ url_for('main_bp.events') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Events</a></li>
+                        <li><a href="{{ url_for('lawn_bp.index') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Lawn</a></li>
+                        <li><a href="{{ url_for('main_bp.gallery') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Gallery</a></li>
+                        <li><a href="{{ url_for('main_bp.contact') }}" class="hover:text-[#C9A96E] transition-colors inline-flex items-center gap-1.5"><i data-lucide="chevron-right" class="w-3.5 h-3.5 text-[#C9A96E]"></i> Contact</a></li>
+                    {% endif %}
                 </ul>
             </div>
 
@@ -41,15 +52,15 @@
                 <ul class="space-y-3 text-sm">
                     <li class="flex items-center gap-3">
                         <i data-lucide="phone" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
-                        <a href="tel:9762278230" class="hover:text-[#C9A96E] transition-colors font-semibold text-white">9762278230</a>
+                        <a href="tel:{{ business_phone }}" class="hover:text-[#C9A96E] transition-colors font-semibold text-white">{{ business_phone }}</a>
                     </li>
                     <li class="flex items-center gap-3">
                         <i data-lucide="message-circle" class="w-4 h-4 text-[#25D366] shrink-0"></i>
-                        <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="hover:text-[#C9A96E] transition-colors">Chat on WhatsApp</a>
+                        <a href="https://wa.me/91{{ business_whatsapp }}?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="hover:text-[#C9A96E] transition-colors">Chat on WhatsApp</a>
                     </li>
                     <li class="flex items-start gap-3">
                         <i data-lucide="map-pin" class="w-4 h-4 text-[#C9A96E] shrink-0 mt-1"></i>
-                        <span>Royal Bagh Villa, Dehradun, Uttarakhand</span>
+                        <span>{{ business_address }}</span>
                     </li>
                 </ul>
             </div>
@@ -63,11 +74,19 @@
                     <p class="text-xs text-[#FAF8F4]/70">
                         Follow our journey and view our latest celebrations on Instagram.
                     </p>
-                    <div>
-                        <a href="https://instagram.com/royalbaghvilla" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-[#141E2E] hover:bg-[#C9A96E] hover:text-[#0B131F] text-sm text-[#FAF8F4] rounded-md transition-all border border-[#C9A96E]/30">
+                    <div class="flex flex-wrap gap-2">
+                        {% if instagram_url %}
+                        <a href="{{ instagram_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-[#141E2E] hover:bg-[#C9A96E] hover:text-[#0B131F] text-sm text-[#FAF8F4] rounded-md transition-all border border-[#C9A96E]/30">
                             <i data-lucide="instagram" class="w-4 h-4"></i>
                             <span>Instagram</span>
                         </a>
+                        {% endif %}
+                        {% if facebook_url %}
+                        <a href="{{ facebook_url }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-4 py-2 bg-[#141E2E] hover:bg-[#C9A96E] hover:text-[#0B131F] text-sm text-[#FAF8F4] rounded-md transition-all border border-[#C9A96E]/30">
+                            <i data-lucide="facebook" class="w-4 h-4"></i>
+                            <span>Facebook</span>
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -75,11 +94,11 @@
 
         <!-- Copyright & Bottom Bar -->
         <div class="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-xs text-[#FAF8F4]/60 gap-4">
-            <p>© 2026 Royal Bagh Villa. All Rights Reserved.</p>
+            <p>© 2026 {{ business_name }}. All Rights Reserved.</p>
             <div class="flex items-center gap-6">
                 <span>Dehradun, Uttarakhand</span>
                 <span>•</span>
-                <a href="tel:9762278230" class="hover:text-[#C9A96E] transition-colors">9762278230</a>
+                <a href="tel:{{ business_phone }}" class="hover:text-[#C9A96E] transition-colors">{{ business_phone }}</a>
             </div>
         </div>
     </div>

@@ -1,0 +1,147 @@
+<!-- REUSABLE MEDIA PICKER MODAL -->
+<div id="media-picker-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative flex flex-col max-h-[85vh] animate-in fade-in zoom-in duration-150">
+        <!-- Header -->
+        <div class="flex items-center justify-between pb-4 border-b border-gray-100 shrink-0">
+            <div>
+                <h3 class="font-serif text-lg font-bold text-gray-900">Select Media from Library</h3>
+                <p class="text-xs text-gray-500">Choose an image or video to insert into the form.</p>
+            </div>
+            <button type="button" onclick="closeMediaPicker()" class="p-1 rounded-md text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <!-- Filter tabs & Quick Upload button -->
+        <div class="py-3 flex items-center justify-between gap-2 border-b border-gray-100 shrink-0">
+            <div class="flex items-center gap-1 text-xs">
+                <button type="button" onclick="loadMediaPickerItems('')" class="px-2.5 py-1 rounded-md bg-brand-primary text-brand-gold font-medium picker-tab" id="picker-tab-all">All</button>
+                <button type="button" onclick="loadMediaPickerItems('image')" class="px-2.5 py-1 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 picker-tab" id="picker-tab-image">Images</button>
+                <button type="button" onclick="loadMediaPickerItems('video')" class="px-2.5 py-1 rounded-md bg-gray-100 text-gray-600 hover:bg-gray-200 picker-tab" id="picker-tab-video">Videos</button>
+            </div>
+            <label class="cursor-pointer px-3 py-1.5 bg-brand-gold text-brand-dark text-xs font-semibold rounded-lg hover:bg-[#b8944f] flex items-center gap-1">
+                <i data-lucide="upload" class="w-3.5 h-3.5"></i> Quick Upload
+                <input type="file" class="hidden" accept="image/*,video/*" onchange="quickUploadFromPicker(this)">
+            </label>
+        </div>
+
+        <!-- Media Grid Container -->
+        <div class="flex-1 overflow-y-auto py-4">
+            <div id="picker-grid" class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                <!-- Dynamically populated via JavaScript -->
+            </div>
+            <div id="picker-empty" class="hidden text-center py-12 text-gray-400">
+                <i data-lucide="image" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+                <p class="text-sm">No media found. Use Quick Upload to add media.</p>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="pt-3 border-t border-gray-100 flex justify-end shrink-0">
+            <button type="button" onclick="closeMediaPicker()" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 font-medium">Cancel</button>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentTargetInputId = null;
+let currentPickerType = '';
+
+function openMediaPicker(targetInputId, typeFilter = '') {
+    currentTargetInputId = targetInputId;
+    currentPickerType = typeFilter;
+    document.getElementById('media-picker-modal').classList.remove('hidden');
+    loadMediaPickerItems(typeFilter);
+}
+
+function closeMediaPicker() {
+    document.getElementById('media-picker-modal').classList.add('hidden');
+    currentTargetInputId = null;
+}
+
+function selectMediaForTarget(url) {
+    if (currentTargetInputId) {
+        const input = document.getElementById(currentTargetInputId);
+        if (input) {
+            input.value = url;
+            input.dispatchEvent(new Event('change'));
+        }
+    }
+    closeMediaPicker();
+}
+
+function loadMediaPickerItems(type = '') {
+    currentPickerType = type;
+    const grid = document.getElementById('picker-grid');
+    const empty = document.getElementById('picker-empty');
+    grid.innerHTML = '<div class="col-span-full py-8 text-center text-sm text-gray-400">Loading library...</div>';
+    empty.classList.add('hidden');
+
+    let url = '/admin/media/api/picker';
+    if (type) {
+        url += '?type=' + encodeURIComponent(type);
+    }
+
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            grid.innerHTML = '';
+            if (!data.media || data.media.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            data.media.forEach(item => {
+                const col = document.createElement('div');
+                col.className = 'group relative aspect-square rounded-lg overflow-hidden border border-gray-200 bg-gray-900 cursor-pointer hover:border-brand-gold hover:shadow transition-all';
+                col.onclick = () => selectMediaForTarget(item.file_url);
+
+                if (item.file_type === 'video') {
+                    col.innerHTML = `
+                        <video src="${item.file_url}" class="w-full h-full object-cover"></video>
+                        <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                            <i data-lucide="play" class="w-6 h-6 text-white"></i>
+                        </div>
+                        <span class="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/70 text-[9px] text-white rounded truncate max-w-[90%]">${item.title || item.original_filename}</span>
+                    `;
+                } else {
+                    col.innerHTML = `
+                        <img src="${item.file_url}" alt="${item.alt_text || item.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform" loading="lazy">
+                        <span class="absolute bottom-1 left-1 px-1.5 py-0.5 bg-black/60 text-[9px] text-white rounded truncate max-w-[90%]">${item.title || item.original_filename}</span>
+                    `;
+                }
+                grid.appendChild(col);
+            });
+            lucide.createIcons();
+        })
+        .catch(err => {
+            grid.innerHTML = '<div class="col-span-full py-8 text-center text-sm text-red-500">Failed to load media.</div>';
+        });
+}
+
+function quickUploadFromPicker(input) {
+    if (!input.files || !input.files[0]) return;
+    const formData = new FormData();
+    formData.append('file', input.files[0]);
+    formData.append('category', 'general');
+
+    const csrfToken = document.querySelector('input[name="csrf_token"]')?.value || '';
+    formData.append('csrf_token', csrfToken);
+
+    fetch('/admin/media/upload', {
+        method: 'POST',
+        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success && data.media) {
+            selectMediaForTarget(data.media.file_url);
+        } else {
+            alert(data.error || 'Upload failed');
+        }
+    })
+    .catch(err => {
+        alert('Upload error: ' + err.message);
+    });
+}
+</script>

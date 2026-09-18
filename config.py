@@ -9,8 +9,9 @@ class Config:
         "DATABASE_URL", f"sqlite:///{os.path.join(BASE_DIR, 'instance', 'royal_bagh.db')}"
     )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16 MB max upload
+    MAX_CONTENT_LENGTH = int(os.environ.get("MAX_CONTENT_LENGTH", 64 * 1024 * 1024))  # 64 MB max upload for media
     UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
+    MEDIA_UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads", "media")
 
     # Business defaults (editable from admin)
     BUSINESS_NAME = "Royal Bagh Villa"

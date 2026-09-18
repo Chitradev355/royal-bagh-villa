@@ -1,0 +1,195 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}Gallery CMS | Royal Bagh Villa Admin{% endblock %}
+
+{% block content %}
+<div class="space-y-6 max-w-6xl mx-auto pb-12">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
+        <div>
+            <h1 class="font-serif text-2xl sm:text-3xl text-gray-900 font-bold">Photo & Video Gallery CMS</h1>
+            <p class="text-sm text-gray-500 mt-1">Manage public showcase media, categories, captions, and display order.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="/gallery" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> View Live Gallery
+            </a>
+            <button onclick="openGalleryModal()" class="inline-flex items-center px-4 py-2.5 bg-brand-primary hover:bg-brand-secondary text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+                <i data-lucide="plus" class="w-4 h-4 mr-2"></i> Add Gallery Item
+            </button>
+        </div>
+    </div>
+
+    <!-- Category Filter Bar -->
+    <div class="bg-white p-3 rounded-xl border border-gray-200 shadow-sm flex flex-wrap items-center gap-2">
+        {% for cat in categories %}
+        <a href="{{ url_for('admin_bp.cms_gallery', category=cat if cat != 'all' else '') }}" class="px-3.5 py-1.5 rounded-lg text-xs font-medium capitalize transition-colors {% if (not category_filter and cat == 'all') or category_filter == cat %}bg-brand-primary text-brand-gold font-semibold{% else %}bg-gray-100 text-gray-600 hover:bg-gray-200{% endif %}">
+            {{ cat }}
+        </a>
+        {% endfor %}
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        {% for item in items %}
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group relative">
+            <div class="relative aspect-video bg-gray-900 overflow-hidden">
+                {% if item.media_type == 'video' %}
+                <video src="{{ item.media_url }}" class="w-full h-full object-cover"></video>
+                <div class="absolute inset-0 bg-black/40 flex items-center justify-center">
+                    <i data-lucide="play" class="w-6 h-6 text-white"></i>
+                </div>
+                {% else %}
+                <img src="{{ item.media_url }}" alt="{{ item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" loading="lazy">
+                {% endif %}
+
+                <span class="absolute top-2 left-2 px-2 py-0.5 bg-black/70 text-[10px] text-brand-gold uppercase tracking-wider rounded font-medium capitalize">
+                    {{ item.category }}
+                </span>
+
+                <!-- Quick Actions Overlay -->
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                    <button type="button" onclick='editGalleryItem({{ item.to_dict()|tojson|safe }})' class="p-2 rounded-lg bg-white/20 hover:bg-white/40 text-white transition-colors" title="Edit">
+                        <i data-lucide="edit-3" class="w-4 h-4"></i>
+                    </button>
+                    <form action="{{ url_for('admin_bp.delete_gallery_item', item_id=item.id) }}" method="POST" class="inline" onsubmit="return confirm('Remove this gallery item?');">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="p-2 rounded-lg bg-red-500/80 hover:bg-red-600 text-white transition-colors" title="Delete">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="p-3 flex-1 flex flex-col justify-between">
+                <div>
+                    <h4 class="font-serif font-bold text-gray-900 text-sm truncate" title="{{ item.title }}">{{ item.title or 'Untitled Item' }}</h4>
+                    <p class="text-xs text-gray-500 mt-0.5 line-clamp-2">{{ item.caption }}</p>
+                </div>
+                <div class="flex items-center justify-between text-[11px] text-gray-400 mt-3 pt-2 border-t border-gray-100">
+                    <span>Order: {{ item.display_order }}</span>
+                    {% if item.is_featured %}
+                    <span class="text-brand-gold font-medium">? Featured</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-span-full py-16 text-center text-gray-400 bg-white rounded-xl border border-gray-200">
+            <i data-lucide="image" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+            <p class="text-sm">No gallery items in this category. Click "Add Gallery Item" to upload.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- GALLERY ADD/EDIT MODAL -->
+<div id="gallery-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative animate-in fade-in zoom-in duration-150">
+        <div class="flex items-center justify-between pb-3 border-b border-gray-100 mb-4">
+            <h3 id="gallery-modal-title" class="font-serif text-lg font-bold text-gray-900">Add Gallery Item</h3>
+            <button type="button" onclick="closeGalleryModal()" class="p-1 rounded-md text-gray-400 hover:text-gray-600">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <form action="{{ url_for('admin_bp.save_gallery_item') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <input type="hidden" name="id" id="gallery_id">
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Title</label>
+                <input type="text" name="title" id="gallery_title" placeholder="e.g. Grand Celebration Lawn" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+            </div>
+
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Caption / Subtitle</label>
+                <input type="text" name="caption" id="gallery_caption" placeholder="Short description" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Category</label>
+                    <select name="category" id="gallery_category" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 capitalize">
+                        {% for cat in categories if cat != 'all' %}
+                        <option value="{{ cat }}">{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Media Type</label>
+                    <select name="media_type" id="gallery_type" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                        <option value="image">Image</option>
+                        <option value="video">Video</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Media URL + Picker -->
+            <div>
+                <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Media URL</label>
+                <div class="flex gap-2">
+                    <input type="text" name="media_url" id="gallery_media_url" placeholder="https://... or /static/uploads/..." class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                    <button type="button" onclick="openMediaPicker('gallery_media_url')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1">
+                        <i data-lucide="image" class="w-3.5 h-3.5"></i> Library
+                    </button>
+                </div>
+                <div class="mt-2">
+                    <span class="text-xs text-gray-500 block mb-1">Or upload new file:</span>
+                    <input type="file" name="media_file" accept="image/*,video/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-1">Display Order</label>
+                    <input type="number" name="display_order" id="gallery_order" value="0" class="w-full text-sm rounded-lg border border-gray-300 p-2.5">
+                </div>
+                <div class="flex items-center gap-2 pt-6">
+                    <input type="checkbox" name="is_featured" id="gallery_featured" value="1" checked class="rounded border-gray-300 text-brand-primary focus:ring-brand-gold">
+                    <label for="gallery_featured" class="text-xs text-gray-700 font-medium">Feature on Homepage</label>
+                </div>
+            </div>
+
+            <div class="pt-4 border-t border-gray-100 flex justify-end gap-3">
+                <button type="button" onclick="closeGalleryModal()" class="px-4 py-2 text-sm text-gray-600 hover:text-gray-800 font-medium">Cancel</button>
+                <button type="submit" class="px-6 py-2 bg-brand-primary hover:bg-brand-secondary text-white font-semibold text-sm rounded-lg shadow transition-colors">Save Item</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% include "admin/components/media_picker_modal.html" %}
+
+<script>
+function openGalleryModal() {
+    document.getElementById('gallery-modal-title').textContent = 'Add Gallery Item';
+    document.getElementById('gallery_id').value = '';
+    document.getElementById('gallery_title').value = '';
+    document.getElementById('gallery_caption').value = '';
+    document.getElementById('gallery_media_url').value = '';
+    document.getElementById('gallery_category').value = 'lawn';
+    document.getElementById('gallery_type').value = 'image';
+    document.getElementById('gallery_order').value = '0';
+    document.getElementById('gallery_featured').checked = true;
+    document.getElementById('gallery-modal').classList.remove('hidden');
+}
+
+function editGalleryItem(data) {
+    document.getElementById('gallery-modal-title').textContent = 'Edit Gallery Item';
+    document.getElementById('gallery_id').value = data.id;
+    document.getElementById('gallery_title').value = data.title || '';
+    document.getElementById('gallery_caption').value = data.caption || '';
+    document.getElementById('gallery_media_url').value = data.media_url || '';
+    document.getElementById('gallery_category').value = data.category || 'all';
+    document.getElementById('gallery_type').value = data.media_type || 'image';
+    document.getElementById('gallery_order').value = data.display_order || 0;
+    document.getElementById('gallery_featured').checked = Boolean(data.is_featured);
+    document.getElementById('gallery-modal').classList.remove('hidden');
+}
+
+function closeGalleryModal() {
+    document.getElementById('gallery-modal').classList.add('hidden');
+}
+</script>
+{% endblock %}

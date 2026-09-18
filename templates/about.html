@@ -9,17 +9,17 @@
 {% block content %}
 <section class="relative min-h-[50vh] flex items-center justify-center overflow-hidden bg-[#0B131F] pt-20">
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80" alt="Royal Bagh Villa Heritage" class="w-full h-full object-cover">
+        <img src="{{ get_cms('about', 'hero_image', 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80') }}" alt="Royal Bagh Villa Heritage" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/80 to-[#0B131F]/70"></div>
     </div>
     
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-16" data-aos="fade-up">
         <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Our Legacy & Hospitality</span>
         <h1 class="font-playfair text-4xl sm:text-6xl text-[#FAF8F4] font-bold mb-4 leading-tight">
-            Welcome to <span class="text-[#C9A96E] italic font-normal">Royal Bagh Villa</span>
+            {{ get_cms('about', 'hero_title', 'Welcome to <span class="text-[#C9A96E] italic font-normal">Royal Bagh Villa</span>') | safe }}
         </h1>
         <p class="text-[#FAF8F4]/80 text-base sm:text-lg max-w-2xl mx-auto">
-            A sanctuary of taste, architectural grace, and celebratory joy in Dehradun.
+            {{ get_cms('about', 'hero_subtitle', 'A sanctuary of taste, architectural grace, and celebratory joy in Dehradun.') }}
         </p>
     </div>
 </section>
@@ -34,12 +34,9 @@
                     Where Every Celebration Becomes a Memory.
                 </h2>
                 <div class="w-20 h-0.5 bg-[#C9A96E] mb-6"></div>
-                <p class="text-[#FAF8F4]/80 text-base leading-relaxed mb-6">
-                    Royal Bagh Villa is designed as an all-encompassing luxury hospitality destination in Dehradun where guests can dine, celebrate, gather and create memorable experiences.
-                </p>
-                <p class="text-[#FAF8F4]/75 text-base leading-relaxed mb-8">
-                    Whether enjoying artisanal single-origin coffee in our quiet cafe corners, bringing loved ones together for an exquisite multi-course dinner, or celebrating grand wedding functions across our sprawling lawn and indoor banquet hall, our commitment remains uncompromising: timeless hospitality and effortless elegance.
-                </p>
+                <div class="text-[#FAF8F4]/80 text-base leading-relaxed mb-8 space-y-4">
+                    {{ get_cms('about', 'content', '<p>Royal Bagh Villa is designed as an all-encompassing luxury hospitality destination in Dehradun where guests can dine, celebrate, gather and create memorable experiences.</p><p>Whether enjoying artisanal single-origin coffee in our quiet cafe corners, bringing loved ones together for an exquisite multi-course dinner, or celebrating grand wedding functions across our sprawling lawn and indoor banquet hall, our commitment remains uncompromising: timeless hospitality and effortless elegance.</p>') | safe }}
+                </div>
 
                 <div class="grid grid-cols-2 gap-6 pt-4 border-t border-[#C9A96E]/20">
                     <div>

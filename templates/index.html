@@ -13,7 +13,14 @@
 <section id="home" class="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0B131F]">
     <!-- Background Image with Cinematic Overlay -->
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&q=85" alt="Royal Bagh Villa Venue in Dehradun" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+        {% set hero_vid = get_cms('home', 'hero_video_url', '') %}
+        {% if hero_vid %}
+        <video autoplay loop muted playsinline class="w-full h-full object-cover scale-105">
+            <source src="{{ hero_vid }}">
+        </video>
+        {% else %}
+        <img src="{{ get_cms('home', 'hero_image', 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1920&q=85') }}" alt="Royal Bagh Villa Venue in Dehradun" class="w-full h-full object-cover object-center scale-105 transition-transform duration-1000">
+        {% endif %}
         <!-- Deep Charcoal / Midnight Navy Gradient Overlay -->
         <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/70 to-[#0B131F]/80"></div>
         <div class="absolute inset-0 bg-black/30"></div>
@@ -23,30 +30,29 @@
         <!-- Brand Badge -->
         <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#C9A96E]/40 bg-[#0B131F]/60 backdrop-blur-md mb-6">
             <span class="w-2 h-2 rounded-full bg-[#C9A96E] animate-pulse"></span>
-            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase">Dehradun's Premier Destination</span>
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase">{{ get_cms('home', 'hero_badge', "Dehradun's Premier Destination") }}</span>
         </div>
 
         <h1 class="font-playfair text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#FAF8F4] font-bold mb-6 tracking-tight leading-[1.1]">
-            Where Every Celebration <br class="hidden sm:inline">
-            <span class="text-[#C9A96E] italic font-normal">Becomes a Memory.</span>
+            {{ get_cms('home', 'hero_title', 'Where Every Celebration <br class="hidden sm:inline"><span class="text-[#C9A96E] italic font-normal">Becomes a Memory.</span>') | safe }}
         </h1>
         
         <p class="font-inter text-sm sm:text-base md:text-lg text-[#C9A96E] font-medium tracking-widest uppercase mb-4">
-            Cafe • Restaurant • Events • Celebrations
+            {{ get_cms('home', 'hero_subtitle', 'Cafe • Restaurant • Events • Celebrations') }}
         </p>
         
         <p class="text-[#FAF8F4]/80 text-base sm:text-lg md:text-xl max-w-3xl mx-auto mb-10 font-inter font-normal leading-relaxed">
-            A premium destination in Dehradun for dining, celebrations, weddings, parties and unforgettable moments.
+            {{ get_cms('home', 'hero_description', 'A premium destination in Dehradun for dining, celebrations, weddings, parties and unforgettable moments.') }}
         </p>
         
         <!-- Action Buttons -->
         <div class="flex flex-col sm:flex-row justify-center items-center gap-4 max-w-md mx-auto">
-            <a href="#enquiry" class="w-full sm:w-auto px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/30 hover:scale-[1.02] text-center tracking-wide">
-                Check Availability
+            <a href="{{ get_cms('home', 'hero_cta_primary_link', '#enquiry') }}" class="w-full sm:w-auto px-8 py-4 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition-all duration-300 shadow-xl hover:shadow-[#C9A96E]/30 hover:scale-[1.02] text-center tracking-wide">
+                {{ get_cms('home', 'hero_cta_primary_text', 'Check Availability') }}
             </a>
-            <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition-all duration-300 shadow-xl flex items-center justify-center gap-2.5 text-center tracking-wide">
+            <a href="{{ get_cms('home', 'hero_cta_secondary_link', 'https://wa.me/91' ~ business_whatsapp ~ '?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking.') }}" target="_blank" rel="noopener noreferrer" class="w-full sm:w-auto px-8 py-4 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition-all duration-300 shadow-xl flex items-center justify-center gap-2.5 text-center tracking-wide">
                 <i data-lucide="message-circle" class="w-5 h-5"></i>
-                <span>WhatsApp Us</span>
+                <span>{{ get_cms('home', 'hero_cta_secondary_text', 'WhatsApp Us') }}</span>
             </a>
         </div>
     </div>
@@ -62,14 +68,13 @@
 <section id="introduction" class="py-24 bg-[#0B131F] border-t border-[#C9A96E]/15 relative">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center max-w-3xl mx-auto mb-16" data-aos="fade-up">
-            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Welcome Experience</span>
+            <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">{{ get_cms('home', 'welcome_badge', 'Welcome Experience') }}</span>
             <h2 class="font-playfair text-3xl sm:text-5xl text-[#FAF8F4] font-bold mb-6 leading-tight">
-                More Than a Destination. <br>
-                <span class="text-[#C9A96E] italic font-normal">It's Your Celebration.</span>
+                {{ get_cms('home', 'welcome_title', 'More Than a Destination. <br><span class="text-[#C9A96E] italic font-normal">It\'s Your Celebration.</span>') | safe }}
             </h2>
             <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
             <p class="text-[#FAF8F4]/75 text-base sm:text-lg leading-relaxed">
-                Royal Bagh Villa seamlessly brings together handcrafted cafe culture, fine multi-cuisine dining, sophisticated banquet spaces, and a grand open-air lawn under one premier destination in Dehradun.
+                {{ get_cms('home', 'welcome_description', 'Royal Bagh Villa seamlessly brings together handcrafted cafe culture, fine multi-cuisine dining, sophisticated banquet spaces, and a grand open-air lawn under one premier destination in Dehradun.') }}
             </p>
         </div>
         
@@ -273,12 +278,32 @@
             </p>
         </div>
 
-        <!-- 8 Event Cards Grid -->
+        <!-- Event Cards Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
-            <!-- 1. Birthday Celebrations -->
+            {% set home_events = get_events(limit=8) %}
+            {% if home_events %}
+                {% for ev in home_events %}
+                <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up">
+                    <div class="relative h-48 overflow-hidden">
+                        <img src="{{ ev.image_url or 'https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80' }}" alt="{{ ev.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
+                        {% if ev.badge %}
+                        <span class="absolute top-3 right-3 px-2 py-0.5 bg-[#C9A96E] text-[#0B131F] text-[10px] font-bold uppercase rounded shadow">{{ ev.badge }}</span>
+                        {% endif %}
+                    </div>
+                    <div class="p-6 flex-grow flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">{{ ev.title }}</h3>
+                            <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">{{ ev.description }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+            <!-- Fallback Static Cards -->
             <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="50">
                 <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80" alt="Birthday Celebrations at Royal Bagh Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?w=600&q=80" alt="Birthday Celebrations" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
                 </div>
                 <div class="p-6 flex-grow flex flex-col justify-between">
@@ -288,11 +313,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 2. Kitty Parties -->
             <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="100">
                 <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=600&q=80" alt="Kitty Parties at Royal Bagh Villa" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1543007630-9710e4a00a20?w=600&q=80" alt="Kitty Parties" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
                 </div>
                 <div class="p-6 flex-grow flex flex-col justify-between">
@@ -302,11 +325,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 3. Anniversary -->
             <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="150">
                 <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80" alt="Anniversary Celebrations" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80" alt="Anniversary" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
                 </div>
                 <div class="p-6 flex-grow flex flex-col justify-between">
@@ -316,11 +337,9 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 4. Reception -->
             <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="200">
                 <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80" alt="Wedding Reception" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&q=80" alt="Reception" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
                 </div>
                 <div class="p-6 flex-grow flex flex-col justify-between">
@@ -330,62 +349,7 @@
                     </div>
                 </div>
             </div>
-
-            <!-- 5. Corporate Events -->
-            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="250">
-                <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=80" alt="Corporate Events" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Corporate Events</h3>
-                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Annual meets, team offsites, award nights, and elegant corporate luncheons.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 6. Private Parties -->
-            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="300">
-                <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80" alt="Private Parties" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Private Parties</h3>
-                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Exclusive spaces with complete privacy, music setups, and customized menus.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 7. Family Functions -->
-            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="350">
-                <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80" alt="Family Functions" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Family Functions</h3>
-                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Roka, Haldi, Mehendi, naming ceremonies, and joyful multigenerational reunions.</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 8. Social Gatherings -->
-            <div class="bg-[#121F33] rounded-xl overflow-hidden border border-[#C9A96E]/20 group hover:border-[#C9A96E] transition-all duration-300 shadow-lg flex flex-col" data-aos="fade-up" data-aos-delay="400">
-                <div class="relative h-48 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=600&q=80" alt="Social Gatherings" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                    <div class="absolute inset-0 bg-gradient-to-t from-[#121F33] via-transparent to-transparent"></div>
-                </div>
-                <div class="p-6 flex-grow flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-playfair text-xl text-[#FAF8F4] font-semibold mb-2">Social Gatherings</h3>
-                        <p class="text-[#FAF8F4]/70 text-xs leading-relaxed">Festive parties, reunion brunches, and celebratory banquets with loved ones.</p>
-                    </div>
-                </div>
-            </div>
+            {% endif %}
         </div>
 
         <div class="text-center">
@@ -417,7 +381,10 @@
                 <div class="p-4 rounded-lg bg-[#121F33] border border-[#C9A96E]/30 mb-8 inline-block">
                     <p class="text-[#C9A96E] font-medium text-sm sm:text-base flex items-center gap-2">
                         <i data-lucide="users" class="w-5 h-5 text-[#C9A96E]"></i>
-                        <span>Suitable for intimate gatherings to large celebrations.</span>
+                        <span>{{ get_cms('lawn', 'capacity', 'Suitable for intimate gatherings to large celebrations (50 to 500+ guests).') }}</span>
+                    </p>
+                    <p class="text-xs text-[#FAF8F4]/70 mt-1 pl-7">
+                        Starting from <strong class="text-white">{{ get_cms('lawn', 'lawn_starting_price', '₹1,250') }}</strong> per plate. <span class="text-[#FAF8F4]/50">*Final quote depends on menu & guest count.</span>
                     </p>
                 </div>
 
@@ -520,9 +487,17 @@
                 </div>
 
                 <div class="p-4 rounded-lg bg-[#121F33] border border-[#C9A96E]/30 mb-8">
-                    <p class="text-sm text-[#C9A96E] font-medium flex items-center gap-2">
-                        <i data-lucide="sparkles" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
-                        <span>Custom menus and event arrangements available.</span>
+                    <div class="flex items-center justify-between flex-wrap gap-2 mb-1">
+                        <p class="text-sm text-[#C9A96E] font-medium flex items-center gap-2">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-[#C9A96E] shrink-0"></i>
+                            <span>{{ get_cms('banquet', 'capacity', 'Indoor luxury hall up to 250+ guests.') }}</span>
+                        </p>
+                        <span class="text-xs bg-[#C9A96E]/20 text-[#C9A96E] border border-[#C9A96E]/40 px-2.5 py-0.5 rounded font-semibold">
+                            From {{ get_cms('banquet', 'starting_price', '₹1,250') }}/plate
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-[#FAF8F4]/60 pl-6">
+                        {{ get_cms('banquet', 'price_disclaimer', 'Starting price per plate. Final quote varies by menu selection & guest count.') }}
                     </p>
                 </div>
 

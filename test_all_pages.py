@@ -75,6 +75,15 @@ def test_all():
         ('/admin/room-bookings', 'Admin Room Bookings'),
         ('/admin/enquiries', 'Admin Enquiries'),
         ('/admin/settings', 'Admin Settings'),
+        ('/admin/media', 'Admin Media Library'),
+        ('/admin/media/api/picker', 'Admin Media API Picker'),
+        ('/admin/cms/home', 'Admin CMS Home'),
+        ('/admin/cms/pages', 'Admin CMS Pages'),
+        ('/admin/cms/venues', 'Admin CMS Venues'),
+        ('/admin/cms/events', 'Admin CMS Events'),
+        ('/admin/cms/gallery', 'Admin CMS Gallery'),
+        ('/admin/cms/navigation', 'Admin CMS Navigation'),
+        ('/admin/backup/export', 'Admin Backup Export'),
     ]
 
     for path, name in admin_pages:

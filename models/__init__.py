@@ -9,3 +9,4 @@ from models.banquet import BanquetBooking
 from models.lawn import LawnBooking
 from models.room import Room, RoomBooking
 from models.contact import Enquiry, BusinessSetting
+from models.cms import CMSContent, MediaFile, CMSEvent, GalleryItem, NavigationItem

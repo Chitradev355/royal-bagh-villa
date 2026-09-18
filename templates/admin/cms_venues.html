@@ -1,0 +1,139 @@
+{% extends "admin/base_admin.html" %}
+
+{% block title %}{{ venue|title }} CMS | Royal Bagh Villa Admin{% endblock %}
+
+{% block content %}
+<div class="space-y-6 max-w-5xl mx-auto pb-12">
+    <!-- Header -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-200 pb-4">
+        <div>
+            <h1 class="font-serif text-2xl sm:text-3xl text-gray-900 font-bold">Venues & Event Spaces CMS</h1>
+            <p class="text-sm text-gray-500 mt-1">Configure pricing, capacities, packages, features, and media for Banquet Hall and Luxury Lawn.</p>
+        </div>
+        <div class="flex items-center gap-3">
+            <a href="/{{ venue }}" target="_blank" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 transition-colors">
+                <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> View Live Page
+            </a>
+            <button type="submit" form="venue-form" class="inline-flex items-center px-5 py-2 bg-brand-primary hover:bg-brand-secondary text-white text-sm font-semibold rounded-lg shadow-sm transition-colors">
+                <i data-lucide="save" class="w-4 h-4 mr-2"></i> Save Venue Details
+            </button>
+        </div>
+    </div>
+
+    <!-- Venue Switcher Tabs -->
+    <div class="flex items-center gap-3">
+        <a href="{{ url_for('admin_bp.cms_venues', venue='banquet') }}" class="px-5 py-2.5 rounded-xl font-serif text-base font-bold transition-all flex items-center gap-2 {% if venue == 'banquet' %}bg-brand-primary text-brand-gold shadow-md{% else %}bg-white text-gray-600 hover:bg-gray-100 border border-gray-200{% endif %}">
+            <i data-lucide="building" class="w-5 h-5"></i>
+            Regal Banquet Hall
+        </a>
+        <a href="{{ url_for('admin_bp.cms_venues', venue='lawn') }}" class="px-5 py-2.5 rounded-xl font-serif text-base font-bold transition-all flex items-center gap-2 {% if venue == 'lawn' %}bg-brand-primary text-brand-gold shadow-md{% else %}bg-white text-gray-600 hover:bg-gray-100 border border-gray-200{% endif %}">
+            <i data-lucide="trees" class="w-5 h-5"></i>
+            Luxury Open-Air Lawn
+        </a>
+    </div>
+
+    <form id="venue-form" action="{{ url_for('admin_bp.cms_venues') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="venue" value="{{ venue }}">
+
+        <!-- 1. PRICING & CAPACITY (KEY REQUIREMENT) -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Pricing & Capacity Specifications</h2>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-[#c9a96e]/15 text-[#c9a96e] rounded-full uppercase">Starting Price ?1,250+</span>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Starting Price per Plate</label>
+                        <input type="text" name="pricing" value="{{ contents.get('pricing', '?1,250 per plate') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold font-medium">
+                        <p class="text-xs text-gray-400 mt-1">Starting reference price displayed prominently to customers.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Pricing Condition / Disclaimer Note</label>
+                        <input type="text" name="pricing_note" value="{{ contents.get('pricing_note', 'Price depends on selected menu/package') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+                        <p class="text-xs text-gray-400 mt-1">Clearly clarifies that final cost is tailored to custom menu selections.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-gray-100">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Guest Capacity</label>
+                        <input type="text" name="capacity" value="{{ contents.get('capacity', 'Up to 300 Guests' if venue == 'banquet' else '50 to 500+ Guests') }}" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Venue Features & Amenities (Comma-separated)</label>
+                        <textarea name="features" rows="2" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">{{ contents.get('features', '') }}</textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Venue Overview Description</label>
+                    <textarea name="description" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold">{{ contents.get('description', '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. MEDIA & VISUAL ASSETS -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Venue Imagery & Video Tour</h2>
+            </div>
+            <div class="p-6 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Primary Showcase Image</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="venue_hero_image_input" name="hero_image" value="{{ contents.get('image', contents.get('hero_image', '')) }}" class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                            <button type="button" onclick="openMediaPicker('venue_hero_image_input')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1">
+                                <i data-lucide="image" class="w-3.5 h-3.5"></i> Library
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <input type="file" name="venue_image_file" accept="image/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Video Tour URL (Optional)</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="venue_video_input" name="video_url" value="{{ contents.get('video_url', '') }}" placeholder="Video URL or /static/uploads/media/..." class="flex-1 text-sm rounded-lg border border-gray-300 p-2.5">
+                            <button type="button" onclick="openMediaPicker('venue_video_input', 'video')" class="px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-xs font-medium flex items-center gap-1">
+                                <i data-lucide="video" class="w-3.5 h-3.5"></i> Library
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <input type="file" name="venue_video_file" accept="video/*" class="text-xs text-gray-500 file:mr-2 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. PACKAGES & OFFERS -->
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h2 class="font-serif text-lg font-bold text-gray-800">Special Packages & Seasonal Inclusions</h2>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-700 uppercase tracking-wider mb-2">Seasonal Package Highlight</label>
+                    <textarea name="offers" rows="3" class="w-full text-sm rounded-lg border border-gray-300 p-2.5 focus:border-brand-gold focus:ring-brand-gold" placeholder="e.g. Complimentary signature mocktails counter and stage lighting package for bookings over 150 guests.">{{ contents.get('offers', '') }}</textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="flex items-center justify-end gap-4 pt-4 border-t border-gray-200">
+            <button type="submit" class="px-8 py-3 bg-brand-primary hover:bg-brand-secondary text-white font-semibold rounded-lg shadow-md transition-colors flex items-center gap-2">
+                <i data-lucide="check" class="w-5 h-5"></i>
+                Save {{ venue|title }} Specifications
+            </button>
+        </div>
+    </form>
+</div>
+
+{% include "admin/components/media_picker_modal.html" %}
+{% endblock %}

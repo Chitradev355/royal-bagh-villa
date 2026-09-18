@@ -10,23 +10,22 @@
 <!-- Hero -->
 <section class="relative min-h-[60vh] flex items-center justify-center overflow-hidden bg-[#0B131F] pt-20">
     <div class="absolute inset-0 z-0">
-        <img src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600&q=80" alt="Banquet Hall" class="w-full h-full object-cover">
+        <img src="{{ get_cms('banquet', 'hero_image', 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=1600&q=80') }}" alt="Banquet Hall" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-t from-[#0B131F] via-[#0B131F]/80 to-[#0B131F]/70"></div>
     </div>
     <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-16" data-aos="fade-up">
         <span class="text-xs font-semibold tracking-[0.25em] text-[#C9A96E] uppercase block mb-3">Indoor Grandeur</span>
         <h1 class="font-playfair text-4xl sm:text-6xl text-[#FAF8F4] font-bold mb-4 leading-tight">
-            Elegant Spaces for <br>
-            <span class="text-[#C9A96E] italic font-normal">Every Occasion.</span>
+            {{ get_cms('banquet', 'hero_title', 'Elegant Spaces for <br><span class="text-[#C9A96E] italic font-normal">Every Occasion.</span>') | safe }}
         </h1>
         <p class="text-[#FAF8F4]/80 text-base sm:text-lg max-w-2xl mx-auto mb-8">
-            An air-conditioned haven of opulence, fine acoustics, and refined hospitality in Dehradun.
+            {{ get_cms('banquet', 'hero_subtitle', 'An air-conditioned haven of opulence, fine acoustics, and refined hospitality in Dehradun.') }}
         </p>
         <div class="flex flex-wrap justify-center gap-4">
             <a href="{{ url_for('banquet_bp.book') }}" class="px-8 py-3.5 bg-[#C9A96E] hover:bg-[#b8944f] text-[#0B131F] font-semibold rounded-md transition shadow-xl">
                 Get Event Quote
             </a>
-            <a href="https://wa.me/919762278230?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="px-8 py-3.5 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition shadow-xl flex items-center gap-2">
+            <a href="https://wa.me/91{{ business_whatsapp }}?text=Hi%20Royal%20Bagh%20Villa%2C%20I%20would%20like%20to%20enquire%20about%20a%20booking." target="_blank" rel="noopener noreferrer" class="px-8 py-3.5 bg-[#25D366] hover:bg-[#1ebd5a] text-white font-semibold rounded-md transition shadow-xl flex items-center gap-2">
                 <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp Us
             </a>
         </div>
@@ -41,12 +40,15 @@
             <h2 class="font-playfair text-3xl sm:text-4xl text-[#FAF8F4] font-bold mb-4">The Royal Banquet Experience</h2>
             <div class="w-20 h-0.5 bg-[#C9A96E] mx-auto mb-6"></div>
             <p class="text-[#FAF8F4]/75 text-base leading-relaxed mb-6">
-                Step into a world of architectural charm. Featuring ambient lighting, grand entry foyers, and customizable stage decor, our indoor hall provides a distinguished backdrop for your most cherished celebrations.
+                {{ get_cms('banquet', 'content', 'Step into a world of architectural charm. Featuring ambient lighting, grand entry foyers, and customizable stage decor, our indoor hall provides a distinguished backdrop for your most cherished celebrations.') }}
             </p>
             <div class="inline-block p-4 rounded-xl bg-[#121F33] border border-[#C9A96E]/30">
                 <p class="text-sm font-medium text-[#C9A96E] flex items-center justify-center gap-2">
                     <i data-lucide="sparkles" class="w-4 h-4"></i>
-                    <span>Custom menus and event arrangements available.</span>
+                    <span>{{ get_cms('banquet', 'capacity', 'Indoor luxury hall for up to 250+ guests.') }} • From {{ get_cms('banquet', 'starting_price', '₹1,250') }}/plate</span>
+                </p>
+                <p class="text-[11px] text-[#FAF8F4]/60 mt-1">
+                    {{ get_cms('banquet', 'price_disclaimer', 'Starting price per plate. Final quote varies by custom menu selection & guest count.') }}
                 </p>
             </div>
         </div>
