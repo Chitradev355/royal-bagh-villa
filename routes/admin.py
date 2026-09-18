@@ -23,6 +23,9 @@ def login():
         admin = Admin.query.filter_by(username=username).first()
         if admin and admin.check_password(password):
             login_user(admin)
+            next_page = request.args.get('next')
+            if next_page and next_page.startswith('/') and not next_page.startswith('//'):
+                return redirect(next_page)
             return redirect(url_for('admin_bp.dashboard'))
         flash('Invalid username or password.', 'error')
     return render_template('admin/login.html')

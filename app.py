@@ -14,6 +14,10 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
 
+    # Enable ProxyFix to correctly handle reverse proxies, headers and HTTPS on Render
+    from werkzeug.middleware.proxy_fix import ProxyFix
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
+
     # Disable strict slashes so both /cafe and /cafe/ return 200 OK
     app.url_map.strict_slashes = False
 

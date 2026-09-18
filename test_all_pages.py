@@ -116,6 +116,117 @@ def test_all():
         print(f"  [FAIL {enquiry_res.status_code}] Event Enquiry Submission")
         errors.append(('/enquiry', 'Enquiry Submission', enquiry_res.status_code, ''))
 
+    # 4. Test CSRF Protection & Admin Authentication Flow
+    print("\n--- CSRF & ADMIN AUTHENTICATION REGRESSION TESTS ---")
+    import re
+    auth_client = app.test_client()
+
+    # A. GET /admin/login loads form & generates valid CSRF token
+    login_page_res = auth_client.get('/admin/login')
+    if login_page_res.status_code == 200:
+        html_text = login_page_res.data.decode('utf-8')
+        match = re.search(r'name=["\']csrf_token["\']\s+value=["\']([^"\']+)["\']', html_text) or \
+                re.search(r'value=["\']([^"\']+)["\']\s+name=["\']csrf_token["\']', html_text)
+        if match and len(match.group(1)) > 10:
+            csrf_token = match.group(1)
+            print(f"  [OK 200] GET /admin/login renders form with CSRF token: {csrf_token[:15]}...")
+        else:
+            print("  [FAIL] CSRF token missing or invalid in login form HTML")
+            errors.append(('/admin/login', 'CSRF Token in Login HTML', 'MISSING', ''))
+    else:
+        print(f"  [FAIL {login_page_res.status_code}] GET /admin/login")
+        errors.append(('/admin/login', 'GET /admin/login', login_page_res.status_code, ''))
+
+    # B. POST /admin/login WITHOUT CSRF token must return 400 Bad Request
+    no_csrf_client = app.test_client()
+    bad_req_res = no_csrf_client.post('/admin/login', data={'username': 'admin', 'password': 'wrongpassword'})
+    if bad_req_res.status_code == 400:
+        print("  [OK 400] POST /admin/login without CSRF token correctly rejected (CSRF protection active)")
+    else:
+        print(f"  [FAIL {bad_req_res.status_code}] Expected 400 without CSRF token")
+        errors.append(('/admin/login', 'CSRF Protection Enforcement', bad_req_res.status_code, ''))
+
+    # C. POST /admin/login WITH invalid credentials and valid CSRF token
+    invalid_login_res = auth_client.post('/admin/login', data={
+        'csrf_token': csrf_token,
+        'username': 'admin',
+        'password': 'wrong_password_test'
+    }, follow_redirects=True)
+    if invalid_login_res.status_code == 200 and "Invalid username or password" in invalid_login_res.data.decode('utf-8'):
+        print("  [OK 200] POST /admin/login with invalid credentials returns expected flash error")
+    else:
+        print(f"  [FAIL {invalid_login_res.status_code}] Invalid login did not display error flash message")
+        errors.append(('/admin/login', 'Invalid Login Handling', invalid_login_res.status_code, ''))
+
+    # D. POST /admin/login WITH valid credentials and valid CSRF token
+    login_page_res2 = auth_client.get('/admin/login')
+    html_text2 = login_page_res2.data.decode('utf-8')
+    match2 = re.search(r'name=["\']csrf_token["\']\s+value=["\']([^"\']+)["\']', html_text2) or \
+             re.search(r'value=["\']([^"\']+)["\']\s+name=["\']csrf_token["\']', html_text2)
+    csrf_token2 = match2.group(1)
+
+    login_success_res = auth_client.post('/admin/login', data={
+        'csrf_token': csrf_token2,
+        'username': 'admin',
+        'password': 'admin123'
+    }, follow_redirects=False)
+    if login_success_res.status_code == 302 and '/admin/dashboard' in login_success_res.headers.get('Location', ''):
+        print("  [OK 302] POST /admin/login with valid credentials successfully redirects to dashboard")
+    else:
+        print(f"  [FAIL {login_success_res.status_code}] Successful login redirect failed")
+        errors.append(('/admin/login', 'Valid Login Redirect', login_success_res.status_code, ''))
+
+    # E. Access dashboard with authenticated session
+    dash_res = auth_client.get('/admin/dashboard')
+    if dash_res.status_code == 200:
+        print("  [OK 200] Authenticated session successfully accessed /admin/dashboard")
+    else:
+        print(f"  [FAIL {dash_res.status_code}] Access to dashboard failed after login")
+        errors.append(('/admin/dashboard', 'Authenticated Dashboard Access', dash_res.status_code, ''))
+
+    # F. Logout
+    logout_res = auth_client.get('/admin/logout', follow_redirects=False)
+    if logout_res.status_code == 302 and '/admin/login' in logout_res.headers.get('Location', ''):
+        print("  [OK 302] GET /admin/logout successfully redirects to /admin/login")
+    else:
+        print(f"  [FAIL {logout_res.status_code}] Logout redirect failed")
+        errors.append(('/admin/logout', 'Admin Logout', logout_res.status_code, ''))
+
+    # G. Dashboard blocked after logout
+    dash_blocked = auth_client.get('/admin/dashboard', follow_redirects=False)
+    if dash_blocked.status_code == 302 and '/admin/login' in dash_blocked.headers.get('Location', ''):
+        print("  [OK 302] Accessing /admin/dashboard after logout correctly redirects to /admin/login")
+    else:
+        print(f"  [FAIL {dash_blocked.status_code}] Dashboard was not blocked after logout")
+        errors.append(('/admin/dashboard', 'Post-Logout Dashboard Block', dash_blocked.status_code, ''))
+
+    # H. Verify HTTPS Reverse Proxy / ProxyFix login on Render
+    proxy_client = app.test_client()
+    proxy_res = proxy_client.get('/admin/login', environ_base={
+        'HTTP_X_FORWARDED_PROTO': 'https',
+        'HTTP_X_FORWARDED_HOST': 'royalbagh.com'
+    })
+    if proxy_res.status_code == 200:
+        html_proxy = proxy_res.data.decode('utf-8')
+        match_proxy = re.search(r'name=["\']csrf_token["\']\s+value=["\']([^"\']+)["\']', html_proxy) or \
+                      re.search(r'value=["\']([^"\']+)["\']\s+name=["\']csrf_token["\']', html_proxy)
+        if match_proxy:
+            proxy_csrf = match_proxy.group(1)
+            proxy_post = proxy_client.post('/admin/login', data={
+                'csrf_token': proxy_csrf,
+                'username': 'admin',
+                'password': 'admin123'
+            }, environ_base={
+                'HTTP_X_FORWARDED_PROTO': 'https',
+                'HTTP_X_FORWARDED_HOST': 'royalbagh.com',
+                'HTTP_REFERER': 'https://royalbagh.com/admin/login'
+            }, follow_redirects=False)
+            if proxy_post.status_code == 302:
+                print("  [OK 302] HTTPS reverse proxy (X-Forwarded-Proto/Host) login succeeds (ProxyFix verified)")
+            else:
+                print(f"  [FAIL {proxy_post.status_code}] HTTPS reverse proxy login failed")
+                errors.append(('/admin/login', 'HTTPS Proxy Login', proxy_post.status_code, ''))
+
     # Summary
     print("\n" + "=" * 60)
     if errors:

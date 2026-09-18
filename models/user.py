@@ -16,14 +16,29 @@ class Admin(UserMixin, db.Model):
     created_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc))
 
     def set_password(self, password):
-        self.password_hash = bcrypt.hashpw(
-            password.encode("utf-8"), bcrypt.gensalt()
-        ).decode("utf-8")
+        from werkzeug.security import generate_password_hash
+        self.password_hash = generate_password_hash(password)
 
     def check_password(self, password):
-        return bcrypt.checkpw(
-            password.encode("utf-8"), self.password_hash.encode("utf-8")
-        )
+        if not self.password_hash:
+            return False
+        # Support Werkzeug hashes (scrypt, pbkdf2, argon2, etc.)
+        if self.password_hash.startswith(('scrypt:', 'pbkdf2:', 'argon2:')):
+            from werkzeug.security import check_password_hash
+            return check_password_hash(self.password_hash, password)
+        # Support bcrypt hashes ($2a$, $2b$, $2y$)
+        if self.password_hash.startswith(('$2a$', '$2b$', '$2y$')):
+            try:
+                import bcrypt
+                return bcrypt.checkpw(password.encode("utf-8"), self.password_hash.encode("utf-8"))
+            except Exception:
+                pass
+        # Universal fallback to werkzeug check
+        from werkzeug.security import check_password_hash
+        try:
+            return check_password_hash(self.password_hash, password)
+        except Exception:
+            return False
 
     @property
     def is_active(self):
