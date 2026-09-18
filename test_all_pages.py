@@ -227,6 +227,54 @@ def test_all():
                 print(f"  [FAIL {proxy_post.status_code}] HTTPS reverse proxy login failed")
                 errors.append(('/admin/login', 'HTTPS Proxy Login', proxy_post.status_code, ''))
 
+    # 5. Test Password Integrity & Invalid Salt Safety
+    print("\n--- PASSWORD INTEGRITY & INVALID SALT SAFETY TESTS ---")
+    with app.app_context():
+        test_admin = Admin.query.filter_by(username='admin').first()
+        original_hash = test_admin.password_hash
+
+        # 5a. Corrupt / invalid salt hash test
+        test_admin.password_hash = "$2a$invalid_salt_corrupted_value"
+        try:
+            result = test_admin.check_password("admin123")
+            if result is False:
+                print("  [OK] Corrupt hash check_password safely returns False without raising ValueError: Invalid salt")
+            else:
+                print("  [FAIL] Corrupt hash check_password returned True unexpectedly")
+                errors.append(('password_check', 'Corrupt Hash', 'UNEXPECTED_TRUE', ''))
+        except ValueError as e:
+            print(f"  [FAIL] check_password raised ValueError: {e}")
+            errors.append(('password_check', 'Corrupt Hash', 'VALUE_ERROR', str(e)))
+
+        # 5b. Corrupt hash during login request returns 200 with flash error instead of 500
+        db.session.commit()
+    
+    corrupt_login_client = app.test_client()
+    c_page = corrupt_login_client.get('/admin/login')
+    c_html = c_page.data.decode('utf-8')
+    c_csrf = re.search(r'name=["\']csrf_token["\']\s+value=["\']([^"\']+)["\']', c_html).group(1)
+    c_resp = corrupt_login_client.post('/admin/login', data={
+        'csrf_token': c_csrf,
+        'username': 'admin',
+        'password': 'admin123'
+    }, follow_redirects=True)
+    if c_resp.status_code == 200 and "Invalid username or password" in c_resp.data.decode('utf-8'):
+        print("  [OK 200] Corrupt hash during login safely flashes error without 500 server crash")
+    else:
+        print(f"  [FAIL {c_resp.status_code}] Corrupt hash login caused failure or crash")
+        errors.append(('/admin/login', 'Corrupt Hash Login Safety', c_resp.status_code, ''))
+
+    # 5c. Seeder self-healing test: repairs corrupt hash
+    from utils.cms_seeder import seed_cms_defaults
+    with app.app_context():
+        seed_cms_defaults()
+        healed_admin = Admin.query.filter_by(username='admin').first()
+        if healed_admin.password_hash.startswith(('scrypt:', 'pbkdf2:')) and healed_admin.check_password('admin123'):
+            print("  [OK] Superadmin seeder successfully detected and repaired corrupt hash with valid Werkzeug hash")
+        else:
+            print("  [FAIL] Seeder failed to heal corrupt admin password hash")
+            errors.append(('seeder', 'Heal Corrupt Hash', 'HEAL_FAILED', ''))
+
     # Summary
     print("\n" + "=" * 60)
     if errors:

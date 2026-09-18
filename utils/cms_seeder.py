@@ -3,8 +3,9 @@ import os
 from models import db, Admin, CMSContent, CMSEvent, GalleryItem, NavigationItem
 
 def seed_cms_defaults():
-    # 0. Ensure Superadmin account exists
-    if Admin.query.first() is None:
+    # 0. Ensure Superadmin account exists and has a valid password hash
+    admin_user = Admin.query.first()
+    if admin_user is None:
         admin_user = Admin(
             username=os.environ.get('ADMIN_USERNAME', 'admin'),
             name='Royal Bagh Villa Admin',
@@ -13,6 +14,25 @@ def seed_cms_defaults():
         admin_user.set_password(os.environ.get('ADMIN_PASSWORD', 'admin123'))
         db.session.add(admin_user)
         db.session.commit()
+    else:
+        # Check if the existing admin's password hash is corrupt or invalid
+        is_invalid_or_corrupt = False
+        if not admin_user.password_hash:
+            is_invalid_or_corrupt = True
+        elif not admin_user.password_hash.startswith(('scrypt:', 'pbkdf2:')):
+            # Not a standard Werkzeug hash — test if it's a valid legacy bcrypt hash or corrupt
+            try:
+                import bcrypt
+                bcrypt.checkpw(b"probe_salt", admin_user.password_hash.encode("utf-8"))
+            except ValueError:
+                # Malformed salt or 'Invalid salt' error
+                is_invalid_or_corrupt = True
+            except Exception:
+                is_invalid_or_corrupt = True
+
+        if is_invalid_or_corrupt:
+            admin_user.set_password(os.environ.get('ADMIN_PASSWORD', 'admin123'))
+            db.session.commit()
 
     # 1. Navigation items
     if NavigationItem.query.count() == 0:
